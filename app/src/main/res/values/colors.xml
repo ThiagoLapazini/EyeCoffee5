@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="marrom">#883E3E</color>
+    <color name="marromfraco">#E6DDDD</color>
+    <color name="marron12">#12883E3E</color>
+    <color name="marron50">#50883E3E</color>
+    <color name="background">#F4F4F4</color>
+    <color name="java">#560000</color>
+</resources>

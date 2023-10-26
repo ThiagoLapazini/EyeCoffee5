@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_layout"
+    android:layout_width="105dp"
+    android:layout_height="175dp"
+    android:layout_margin="10dp"
+    android:background="@drawable/backgroundcard"
+    android:elevation="10dp">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imagemProduto"
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/ovo"/>
+
+    <TextView
+        android:id="@+id/nomeProduto"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal|top"
+        android:lineSpacingExtra="0sp"
+        android:textAppearance="@style/pequeno12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagemProduto"
+        tools:text="@string/nomeproduto" />
+
+    <TextView
+        android:id="@+id/precoProduto"
+        android:layout_width="54dp"
+        android:layout_height="15dp"
+        android:gravity="center_horizontal|top"
+        android:text="@string/preco"
+        android:textAppearance="@style/negrito12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nomeProduto" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

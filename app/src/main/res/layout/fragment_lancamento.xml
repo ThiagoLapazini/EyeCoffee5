@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lancamento_layout"
+    android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:layout_gravity="center"
+    android:background="@drawable/round_background"
+    android:elevation="10dp"
+    android:paddingHorizontal="24dp"
+    android:paddingBottom="24dp">
+
+    <TextView
+        android:id="@+id/title_lancamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        style="@style/tituloPrincipal"
+        android:gravity="top"
+        android:text="Lançando Item"
+        android:layout_marginTop="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/shapeableImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView"
+        android:layout_marginBottom="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ovo"
+        app:layout_constraintBottom_toTopOf="@+id/quant_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
+
+    <TextView
+        android:id="@+id/nomeProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/nomeproduto"
+        android:textAlignment="textStart"
+        style="@style/pequeno12"
+        app:layout_constraintBottom_toTopOf="@+id/precoProduto"
+        app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+        app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
+
+    <TextView
+        android:id="@+id/precoProduto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/negrito14"
+        android:text="@string/preco"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="15dp"
+        android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@+id/quant_title"
+        app:layout_constraintStart_toEndOf="@+id/shapeableImageView" />
+
+
+    <TextView
+        android:id="@+id/quant_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_bold"
+        android:layout_marginBottom="24dp"
+        android:text="Quantidade"
+        android:textAlignment="center"
+        style="@style/negrito12"
+        app:layout_constraintBottom_toTopOf="@+id/qnt_counter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/adicionarQuantidade"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/marrom"
+        android:gravity="center"
+        android:text="+"
+        style="@style/tituloPrincipal"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/total_text"
+        android:layout_marginStart="5dp"
+        app:layout_constraintStart_toEndOf="@+id/qnt_counter" />
+
+    <Button
+        android:id="@+id/removerQuantidade"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/marrom"
+        android:gravity="center"
+        android:text="-"
+        style="@style/tituloPrincipal"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/total_text"
+        app:layout_constraintEnd_toStartOf="@+id/qnt_counter"/>
+
+    <Button
+        android:id="@+id/qnt_counter"
+        android:layout_width="54dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marron12"
+        android:gravity="center"
+        android:text="3"
+        style="@style/pequeno12"
+        app:layout_constraintBottom_toTopOf="@+id/total_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/total_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total: R$ 100,00"
+        style="@style/negrito14"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/observation_text"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/observation_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:text="@string/textoObservacao"
+        style="@style/negrito12"
+        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/editText"
+        style="@style/pequeno12"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:autofillHints="Digite aqui sua observação"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marron12"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="261dp" />
+
+    <Button
+        android:id="@+id/btCancelar"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marron12"
+        android:text="@string/textoVoltar"
+        style="@style/negrito12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btOk"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marrom"
+        android:fontFamily="@font/montserrat_bold"
+        android:text="@string/adicionar"
+        android:gravity="center"
+        style="@style/negrito12"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

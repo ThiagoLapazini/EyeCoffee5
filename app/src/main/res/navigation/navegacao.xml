@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navegacao"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.eyecoffee.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_catalogo2"
+            app:destination="@id/catalogo2" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/lancamento"
+        android:name="com.example.eyecoffee.Lancamento"
+        android:label="Lancamento" >
+        <action
+            android:id="@+id/action_lancamento_to_carrinho"
+            app:destination="@id/carrinho" />
+    </fragment>
+    <fragment
+        android:id="@+id/carrinho"
+        android:name="com.example.eyecoffee.Carrinho"
+        android:label="fragment_carrinho"
+        tools:layout="@layout/modelcarrinho" >
+        <action
+            android:id="@+id/action_carrinho_to_editando"
+            app:destination="@id/editando" />
+        <action
+            android:id="@+id/action_carrinho_to_pagamento"
+            app:destination="@id/pagamento" />
+    </fragment>
+    <fragment
+        android:id="@+id/editando"
+        android:name="com.example.eyecoffee.Editando"
+        android:label="Editando" />
+    <fragment
+        android:id="@+id/pagamento"
+        android:name="com.example.eyecoffee.Pagamento"
+        android:label="Pagamento" />
+    <fragment
+        android:id="@+id/catalogo2"
+        android:name="com.example.eyecoffee.Catalogo"
+        android:label="Catalogo" >
+        <action
+            android:id="@+id/action_catalogo2_to_lancamento"
+            app:destination="@id/lancamento" />
+    </fragment>
+</navigation>

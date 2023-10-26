@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <!-- Seção 1: Desconto em Dinheiro -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/round_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btDesconto">
+
+        <ImageView
+            android:id="@+id/iconeDinheiro"
+            android:layout_width="43dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/dinheiro" />
+
+        <TextView
+            android:id="@+id/textoDinheiro"
+            style="@style/negrito14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="30dp"
+            android:text="Dinheiro"
+            app:layout_constraintStart_toEndOf="@+id/iconeDinheiro"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/adicionar"
+            style="@style/normal14"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/group_5362"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Seção 2: Valor Restante -->
+    <TextView
+        android:id="@+id/title_lancamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Valor restante"
+        android:textAlignment="center"
+        android:textColor="@color/marrom"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/valorTotal"
+        style="@style/numeros"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="R$ 55,00"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
+
+    <!-- Seção 3: Botão Adicionar Desconto -->
+    <Button
+        android:id="@+id/btDesconto"
+        style="@style/negrito14"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="31dp"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marron12"
+        android:gravity="center"
+        android:text="ADICIONAR DESCONTO"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/valorTotal" />
+
+    <!-- Seção 4: Crédito -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.485"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+
+        <ImageView
+            android:id="@+id/iconeCredito"
+            android:layout_width="43dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cartoes"
+            app:tint="@color/marrom" />
+
+        <TextView
+            android:id="@+id/credito_text"
+            style="@style/negrito14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="Crédito"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iconeCredito"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/adicionarCredito"
+            style="@style/normal14"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/group_5362"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Seção 5: Débito -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/round_background"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        tools:layout_editor_absoluteX="32dp">
+
+        <ImageView
+            android:id="@+id/iconeDebitoPagamento"
+            android:layout_width="43dp"
+            android:layout_height="33dp"
+            android:layout_marginStart="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cartoes"
+            app:tint="@color/marrom" />
+
+        <TextView
+            android:id="@+id/textoDebito"
+            style="@style/negrito14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:text="Débito"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iconeDebitoPagamento"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/adicionarDebito"
+            style="@style/normal14"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_marginEnd="28dp"
+            android:background="@drawable/group_5362"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Botão Finalizar -->
+    <Button
+        android:id="@+id/btn_finalizar"
+        style="@style/negrito14"
+        android:layout_width="280dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marrom"
+        android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
+        android:text="FINALIZAR"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

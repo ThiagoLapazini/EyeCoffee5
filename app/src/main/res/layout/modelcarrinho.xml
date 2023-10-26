@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_layout"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="83dp"
+    android:layout_margin="20dp"
+    android:elevation="10dp">
+
+
+    <ImageView
+        android:id="@+id/imagemProduto"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/backgroundimage"
+        android:clipToOutline="true"
+        android:layout_marginBottom="19dp"
+        android:layout_marginStart="13dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:srcCompat="@drawable/ovo" />
+
+    <TextView
+        android:id="@+id/nomeProduto"
+        style="@style/pequeno12"
+        android:layout_width="250dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="top"
+        android:maxWidth="85sp"
+        app:layout_constraintBottom_toTopOf="@+id/precoProduto"
+        app:layout_constraintStart_toEndOf="@+id/imagemProduto"
+        tools:text="@string/nomeproduto" />
+
+    <ImageView
+        android:id="@+id/opcoes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ellipsis_vertical" />
+
+    <TextView
+        android:id="@+id/precoProduto"
+        style="@style/negrito12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="24dp"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imagemProduto"
+        tools:text="R$ 25,00" />
+
+    <Button
+        android:id="@+id/quantidade"
+        style="@style/tituloPrincipal"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/marrom"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

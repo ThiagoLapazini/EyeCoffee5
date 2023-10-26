@@ -1,0 +1,11 @@
+<resources>
+    <string name="eye_coffee">Eye Coffee</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nomeproduto">Produto teste</string>
+    <string name="preco">R$ 25,00</string>
+    <string name="titulo">Eye Coffee</string>
+    <string name="textoObservacao">Observações</string>
+    <string name="textoVoltar">VOLTAR</string>
+    <string name="adicionar">ADICIONAR</string>
+    <string name="tituloEditando">Editando o Item</string>
+</resources>
