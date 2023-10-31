@@ -4,20 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_layout"
     android:layout_width="105dp"
+    android:clickable="true"
     android:layout_height="175dp"
     android:layout_margin="10dp"
     android:background="@drawable/backgroundcard"
     android:elevation="10dp">
 
+    <Button
+        android:id="@+id/qnt_item"
+        style="@style/tituloPrincipal"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:background="@drawable/round"
+        android:backgroundTint="@color/marrom"
+        android:text="1"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageButton
         android:id="@+id/imagemProduto"
         android:layout_width="105dp"
         android:layout_height="105dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@drawable/ovo"/>
+        tools:srcCompat="@drawable/ovo" />
 
     <TextView
         android:id="@+id/nomeProduto"
@@ -34,10 +48,10 @@
 
     <TextView
         android:id="@+id/precoProduto"
-        android:layout_width="54dp"
+        android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:gravity="center_horizontal|top"
-        android:text="@string/preco"
+        android:text="@string/precoproduto"
         android:textAppearance="@style/negrito12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

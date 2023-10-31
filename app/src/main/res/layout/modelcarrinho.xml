@@ -11,7 +11,7 @@
 
 
     <ImageView
-        android:id="@+id/imagemProduto"
+        android:id="@+id/imagemProdutoCarrinho"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/backgroundimage"
@@ -23,7 +23,7 @@
         tools:srcCompat="@drawable/ovo" />
 
     <TextView
-        android:id="@+id/nomeProduto"
+        android:id="@+id/nomeProdutoCarrinho"
         style="@style/pequeno12"
         android:layout_width="250dp"
         android:layout_height="30dp"
@@ -31,8 +31,8 @@
         android:layout_marginBottom="5dp"
         android:gravity="top"
         android:maxWidth="85sp"
-        app:layout_constraintBottom_toTopOf="@+id/precoProduto"
-        app:layout_constraintStart_toEndOf="@+id/imagemProduto"
+        app:layout_constraintBottom_toTopOf="@+id/precoProdutoCarrinho"
+        app:layout_constraintStart_toEndOf="@+id/imagemProdutoCarrinho"
         tools:text="@string/nomeproduto" />
 
     <ImageView
@@ -45,7 +45,7 @@
         app:srcCompat="@drawable/ellipsis_vertical" />
 
     <TextView
-        android:id="@+id/precoProduto"
+        android:id="@+id/precoProdutoCarrinho"
         style="@style/negrito12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         android:layout_marginBottom="24dp"
         android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imagemProduto"
+        app:layout_constraintStart_toEndOf="@+id/imagemProdutoCarrinho"
         tools:text="R$ 25,00" />
 
     <Button

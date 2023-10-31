@@ -36,7 +36,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="negrito12" parent="TextAppearance.AppCompat">
+    <style name="negrito12">
         <item name="android:textColor">@color/marrom</item>
         <item name="fontFamily">@font/montserrat_bold</item>
         <item name="android:textSize">12sp</item>
