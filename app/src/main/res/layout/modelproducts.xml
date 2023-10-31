@@ -10,7 +10,7 @@
     android:elevation="10dp">
 
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/imagemProduto"
         android:layout_width="105dp"
         android:layout_height="105dp"
@@ -34,10 +34,10 @@
 
     <TextView
         android:id="@+id/precoProduto"
-        android:layout_width="54dp"
+        android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:gravity="center_horizontal|top"
-        android:text="@string/preco"
+        android:text="@string/precoproduto"
         android:textAppearance="@style/negrito12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
