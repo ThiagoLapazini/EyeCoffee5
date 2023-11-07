@@ -57,3 +57,6 @@ android {
         implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     }
 }
+dependencies {
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+}

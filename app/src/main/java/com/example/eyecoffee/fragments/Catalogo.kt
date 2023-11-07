@@ -5,14 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.eyecoffee.R
 import com.example.eyecoffee.adapters.ProdutosAdapter
+import com.example.eyecoffee.adapters.SharedViewModel
 import com.example.eyecoffee.databinding.FragmentCatalogoBinding
 import com.example.eyecoffee.model.Produtos
 
 class Catalogo : Fragment() {
 
+    private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: FragmentCatalogoBinding
     private lateinit var produtosAdapter: ProdutosAdapter
     private val produtolist: MutableList<Produtos> = mutableListOf()
@@ -23,10 +26,12 @@ class Catalogo : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCatalogoBinding.inflate(inflater, container, false)
-
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        produtosAdapter = ProdutosAdapter(requireContext(), produtolist)
+        produtosAdapter = ProdutosAdapter(requireContext(), produtolist) { produto ->
+            sharedViewModel.setBottomBarVisibility(true)
+        }
         recyclerView.adapter = produtosAdapter
         getFood()
 
@@ -55,6 +60,5 @@ class Catalogo : Fragment() {
         val food10 = Produtos("Pão de Queijo", "R$ 5,00", R.drawable.ovo)
         produtolist.add(food10)
     }
-
 
 }

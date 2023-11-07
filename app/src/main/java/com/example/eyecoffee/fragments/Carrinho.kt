@@ -1,4 +1,5 @@
 package com.example.eyecoffee.fragments
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,12 +22,10 @@ class Carrinho : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCarrinhoBinding.inflate(inflater, container, false)
-
         val recyclerView = binding.recyclerViewCarrinho
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         carrinhoAdapter = CarrinhoAdapter(requireContext(), carrinhoList)
         recyclerView.adapter = carrinhoAdapter
-
         return binding.root
     }
 }

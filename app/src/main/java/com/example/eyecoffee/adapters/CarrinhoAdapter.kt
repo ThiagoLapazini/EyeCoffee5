@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.eyecoffee.databinding.ModelcarrinhoBinding
 import com.example.eyecoffee.model.ModelCarrinho
 
-class CarrinhoAdapter(private val context: Context, private val carrinhoList: MutableList<ModelCarrinho>) :
+class CarrinhoAdapter(
+    private val context: Context,
+    private val carrinhoList: MutableList<ModelCarrinho>
+) :
     RecyclerView.Adapter<CarrinhoAdapter.CarrinhoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarrinhoViewHolder {
@@ -26,10 +29,11 @@ class CarrinhoAdapter(private val context: Context, private val carrinhoList: Mu
         holder.imgFood.setImageResource(carrinhoItem.imagemProdutoCarrinho)
     }
 
-    inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         val nomeProduto = binding.nomeProdutoCarrinho
         val valorProduto = binding.precoProdutoCarrinho
         val quantidade = binding.quantidade
         val imgFood = binding.imagemProdutoCarrinho
     }
-}
+    }
