@@ -107,7 +107,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/arrowBottom2"
+            android:id="@+id/setavancarPagamento"
             android:layout_width="18dp"
             android:layout_height="28dp"
             android:layout_marginEnd="21dp"
@@ -137,8 +137,150 @@
             android:text="R$ 100,00"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/arrowBottom2"
+            app:layout_constraintEnd_toStartOf="@+id/setavancarPagamento"
             app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/carrinhoheader"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/headerbackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/returnButton"
+            android:layout_width="18dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:scaleX="-1"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/setavoltar" />
+
+        <ImageView
+            android:id="@+id/cartImage"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/returnButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/carrinho_icon" />
+
+        <TextView
+            android:id="@+id/carrinhoText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:text="Carrinho"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/cartImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="102dp" />
+
+        <ImageView
+            android:id="@+id/imageLimpar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/limparicone" />
+
+        <TextView
+            android:id="@+id/limparText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="9dp"
+            style="@style/normal14"
+            android:textColor="@color/white"
+            android:text="Limpar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageLimpar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerpagamento"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/headerbackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone">
+
+        <ImageButton
+            android:id="@+id/voltarpagamento"
+            android:layout_width="18dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="20dp"
+            android:scaleX="-1"
+            android:backgroundTint="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/setavoltar" />
+
+        <ImageView
+            android:id="@+id/imgcarrinhopagamento"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/voltarpagamento"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/cartaoiconepag" />
+
+        <TextView
+            android:id="@+id/titulopagamento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:textColor="@color/white"
+            android:textSize="24sp"
+            android:text="Pagamento"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/imgcarrinhopagamento"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteX="102dp" />
+
+        <ImageView
+            android:id="@+id/imageLimpar_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="17dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/limparicone" />
+
+        <TextView
+            android:id="@+id/limparText_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="9dp"
+            style="@style/normal14"
+            android:textColor="@color/white"
+            android:text="Limpar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageLimpar_payment"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

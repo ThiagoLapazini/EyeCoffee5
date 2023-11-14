@@ -12,7 +12,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: ActivityMainBinding
-
+    private var isCarrinhoVisivel = false
+    private var isPagamentoVisivel = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +40,42 @@ class MainActivity : AppCompatActivity() {
         cartIcon.setOnClickListener {
             // Navegue para o Fragment do carrinho
             navController.navigate(R.id.action_catalogo_to_carrinho)
+            isCarrinhoVisivel = !isCarrinhoVisivel
+            atualizarHeader()
+
+        }
+        val avancarPagamento = binding.setavancarPagamento// Referencie o ícone do avanço para pagamento
+        avancarPagamento.setOnClickListener {
+            // Navegue para o Fragment do pagamento
+            navController.navigate(R.id.action_carrinho_to_pagamento)
+            isPagamentoVisivel = !isPagamentoVisivel
+            atualizarHeaderPagamento()
+        }
+    }
+
+    private fun atualizarHeaderPagamento() {
+        if (isPagamentoVisivel) {
+            binding.carrinhoheader.visibility = View.GONE
+            binding.headerpagamento.visibility = View.VISIBLE
+            binding.segundofooter.visibility = View.GONE
+        } else {
+            binding.headerpagamento.visibility = View.GONE
+            binding.carrinhoheader.visibility = View.VISIBLE
+            binding.segundofooter.visibility = View.VISIBLE
+        }
+    }
+
+    private fun atualizarHeader() {
+        if (isCarrinhoVisivel) {
+            binding.header.visibility = View.GONE
+            binding.carrinhoheader.visibility = View.VISIBLE
+            binding.footer.visibility = View.GONE
+            binding.segundofooter.visibility = View.VISIBLE
+        } else {
+            binding.header.visibility = View.VISIBLE
+            binding.carrinhoheader.visibility = View.GONE
+            binding.footer.visibility = View.VISIBLE
+            binding.segundofooter.visibility = View.GONE
         }
     }
 }
