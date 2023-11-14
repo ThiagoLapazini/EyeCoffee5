@@ -26,7 +26,13 @@ class CarrinhoAdapter(
         holder.nomeProduto.text = carrinhoItem.nomeProdutoCarrinho
         holder.valorProduto.text = carrinhoItem.precoProdutoCarrinho
         holder.quantidade.text = carrinhoItem.quantidadeCarrinho.toString()
-        holder.imgFood.setImageResource(carrinhoItem.imagemProdutoCarrinho)
+        carrinhoItem.imagemProdutoCarrinho?.let { holder.imgFood.setImageResource(it) }
+    }
+
+    fun submitList(list: List<ModelCarrinho>) {
+        carrinhoList.clear()
+        carrinhoList.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :
@@ -36,4 +42,4 @@ class CarrinhoAdapter(
         val quantidade = binding.quantidade
         val imgFood = binding.imagemProdutoCarrinho
     }
-    }
+}

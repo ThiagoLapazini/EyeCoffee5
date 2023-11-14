@@ -11,6 +11,7 @@ import com.example.eyecoffee.R
 import com.example.eyecoffee.adapters.ProdutosAdapter
 import com.example.eyecoffee.adapters.SharedViewModel
 import com.example.eyecoffee.databinding.FragmentCatalogoBinding
+import com.example.eyecoffee.model.ModelCarrinho
 import com.example.eyecoffee.model.Produtos
 
 class Catalogo : Fragment() {
@@ -31,6 +32,12 @@ class Catalogo : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         produtosAdapter = ProdutosAdapter(requireContext(), produtolist) { produto ->
             sharedViewModel.setBottomBarVisibility(true)
+            val value = produto.precoProduto.replace("R$", "").replace(",", ".").trim().toDouble()
+            sharedViewModel.addToTotalSelectedValue(value)
+            val carrinhoItem = ModelCarrinho(
+                produto.nomeProduto, produto.precoProduto, 1, produto.imagemProduto
+            )
+            sharedViewModel.addToCarrinhoList(carrinhoItem)
         }
         recyclerView.adapter = produtosAdapter
         getFood()

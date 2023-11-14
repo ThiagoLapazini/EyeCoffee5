@@ -20,13 +20,13 @@
         android:gravity="top"
         android:text="Lançando Item"
         android:layout_marginTop="25dp"
-        app:layout_constraintBottom_toTopOf="@+id/shapeableImageView"
+        app:layout_constraintBottom_toTopOf="@+id/lanimagem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/shapeableImageView"
+        android:id="@+id/lanimagem"
         android:layout_marginBottom="15dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -36,7 +36,7 @@
         app:shapeAppearanceOverlay="@style/roundedImageViewRounded" />
 
     <TextView
-        android:id="@+id/nomeProduto"
+        android:id="@+id/lannomeProduto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -45,12 +45,12 @@
         android:text="@string/nomeproduto"
         android:textAlignment="textStart"
         style="@style/pequeno12"
-        app:layout_constraintBottom_toTopOf="@+id/precoProduto"
-        app:layout_constraintStart_toEndOf="@+id/shapeableImageView"
+        app:layout_constraintBottom_toTopOf="@+id/lanprecoProduto"
+        app:layout_constraintStart_toEndOf="@+id/lanimagem"
         app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
 
     <TextView
-        android:id="@+id/precoProduto"
+        android:id="@+id/lanprecoProduto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/negrito14"
@@ -59,7 +59,7 @@
         android:layout_marginBottom="15dp"
         android:textAlignment="textStart"
         app:layout_constraintBottom_toTopOf="@+id/quant_title"
-        app:layout_constraintStart_toEndOf="@+id/shapeableImageView" />
+        app:layout_constraintStart_toEndOf="@+id/lanimagem" />
 
 
     <TextView
@@ -151,9 +151,9 @@
         android:background="@drawable/round_background"
         android:backgroundTint="@color/marron12"
         android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/btOk"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="261dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btCancelar"

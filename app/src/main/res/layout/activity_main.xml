@@ -46,7 +46,7 @@
         android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:background="@drawable/headerbackground"
+        android:background="@drawable/footer"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -73,7 +73,7 @@
             app:srcCompat="@drawable/seta_icon" />
 
         <TextView
-            android:id="@+id/itemTotal"
+            android:id="@+id/qntItens"
             style="@style/normal14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,10 +97,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomBar2"
+        android:id="@+id/segundofooter"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@drawable/headerbackground"
+        android:background="@drawable/footer"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
