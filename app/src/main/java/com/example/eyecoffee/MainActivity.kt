@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.eyecoffee.adapters.SharedViewModel
+import com.example.eyecoffee.dao.AppDataBase
+import com.example.eyecoffee.dao.ProdutoDAO
 import com.example.eyecoffee.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,11 +20,20 @@ class MainActivity : AppCompatActivity() {
     private var isCarrinhoVisivel = false
     private var isPagamentoVisivel = false
 
+    private lateinit var dataBase: AppDataBase
+    private lateinit var produtoDAO: ProdutoDAO
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Inflando o layout usando o databinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        this.dataBase = AppDataBase.getInstance(this)
+
+        this.produtoDAO = this.dataBase.ProdutoDAO()
+
         // Obtendo o NavController do NavHostFragment
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
