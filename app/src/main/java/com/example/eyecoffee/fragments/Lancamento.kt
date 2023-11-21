@@ -3,52 +3,56 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.eyecoffee.R
-import com.example.eyecoffee.model.Produtos
+import com.example.eyecoffee.adapters.SharedViewModel
+import com.google.android.material.imageview.ShapeableImageView
 
 class Lancamento : DialogFragment() {
 
-    private var produto: Produtos? = null
+    private lateinit var imagemProduto: ShapeableImageView
+    private lateinit var nomeProduto: TextView
+    private lateinit var precoProduto: TextView
+
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_lancamento, container, false)
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        // Inflar o layout do fragmento de lançamento
+        val view = inflater.inflate(R.layout.fragment_lancamento, container, false)
 
-        // Verifica se o produto foi passado para o DialogFragment
-        if (produto != null) {
-            // Configura os campos com as informações do produto
-            // Exemplo: Supondo que você tenha TextViews chamados tvNome, tvValor e ImageView chamado imgProduto
-            view.findViewById<TextView>(R.id.lannomeProduto).text = produto!!.nomeProduto
-            view.findViewById<TextView>(R.id.lanprecoProduto).text = produto!!.precoProduto
-            view.findViewById<ImageView>(R.id.lanimagem).setImageResource(produto!!.imagemProduto!!)
+        // Inicializar os elementos do layout
+        imagemProduto = view.findViewById(R.id.lanimagem)
+        nomeProduto = view.findViewById(R.id.lannomeProduto)
+        precoProduto = view.findViewById(R.id.lanprecoProduto)
 
-            // Configura os botões para aumentar ou diminuir a quantidade
-            view.findViewById<Button>(R.id.adicionarQuantidade).setOnClickListener {
-                // Lógica para aumentar a quantidade do produto
-                // Exemplo: Ajuste conforme necessário
-            }
+        // Inicializar o SharedViewModel
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
-            view.findViewById<Button>(R.id.removerQuantidade).setOnClickListener {
-                // Lógica para diminuir a quantidade do produto
-                // Exemplo: Ajuste conforme necessário
-            }
+        // Observar mudanças no produto selecionado
+        sharedViewModel.selectedProduto.observe(viewLifecycleOwner) { produto ->
+            // Atualizar a interface do usuário com as informações do produto
+            Glide.with(requireContext())
+                .load(produto.productImage)
+                .into(imagemProduto)
+            nomeProduto.text = produto.productTitle
+            precoProduto.text = produto.productPrice
         }
+
+        return view
     }
 
-    // Método para definir o produto a ser exibido no DialogFragment
-    fun setProduto(produto: Produtos) {
-        this.produto = produto
-    }
+
 }
+
+
+
 
 

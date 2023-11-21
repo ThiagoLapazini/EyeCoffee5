@@ -10,49 +10,67 @@ import com.example.eyecoffee.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
+    // Declarando uma instância do SharedViewModel
     private lateinit var sharedViewModel: SharedViewModel
+    // Declarando uma instância do binding para acessar os elementos da interface do usuário
     private lateinit var binding: ActivityMainBinding
+    // Variáveis para controlar a visibilidade do carrinho e pagamento
     private var isCarrinhoVisivel = false
     private var isPagamentoVisivel = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Inflando o layout usando o databinding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // Obtendo o NavController do NavHostFragment
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
+        // Inicializando o SharedViewModel
         sharedViewModel = ViewModelProvider(this).get(SharedViewModel::class.java)
 
+        // Observando mudanças na visibilidade da barra inferior
         sharedViewModel.bottomBarVisible.observe(this) { visible ->
             binding.footer.visibility = if (visible) View.VISIBLE else View.GONE
         }
+
+        // Observando mudanças no valor total selecionado
         sharedViewModel.totalSelectedValue.observe(this) { totalValue ->
             val valFormatado = String.format("R$ %.2f", totalValue)
             binding.totalBottom.text = valFormatado
         }
 
+        // Observando mudanças no número total de itens selecionados
         sharedViewModel.itemCount.observe(this) { itemCount ->
             val quantFormatado = String.format("%d Itens", itemCount)
             binding.qntItens.text = quantFormatado
         }
-        val cartIcon = binding.cartBottom// Referencie o ícone do carrinho
-        cartIcon.setOnClickListener {
-            // Navegue para o Fragment do carrinho
-            navController.navigate(R.id.action_catalogo_to_carrinho)
-            isCarrinhoVisivel = !isCarrinhoVisivel
-            atualizarHeader()
 
+        // Configurando o clique no ícone do carrinho
+        val cartIcon = binding.cartBottom
+        cartIcon.setOnClickListener {
+            // Navegando para o Fragment do carrinho
+            navController.navigate(R.id.action_catalogo_to_carrinho)
+            // Alternando a visibilidade do carrinho
+            isCarrinhoVisivel = !isCarrinhoVisivel
+            // Atualizando o cabeçalho da interface do usuário
+            atualizarHeader()
         }
-        val avancarPagamento = binding.setavancarPagamento// Referencie o ícone do avanço para pagamento
+
+        // Configurando o clique no ícone de avanço para pagamento
+        val avancarPagamento = binding.setavancarPagamento
         avancarPagamento.setOnClickListener {
-            // Navegue para o Fragment do pagamento
+            // Navegando para o Fragment do pagamento
             navController.navigate(R.id.action_carrinho_to_pagamento)
+            // Alternando a visibilidade do pagamento
             isPagamentoVisivel = !isPagamentoVisivel
+            // Atualizando o cabeçalho da interface do usuário
             atualizarHeaderPagamento()
         }
     }
 
+    // Método para atualizar o cabeçalho quando o pagamento é visível ou não
     private fun atualizarHeaderPagamento() {
         if (isPagamentoVisivel) {
             binding.carrinhoheader.visibility = View.GONE
@@ -65,6 +83,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Método para atualizar o cabeçalho quando o carrinho é visível ou não
     private fun atualizarHeader() {
         if (isCarrinhoVisivel) {
             binding.header.visibility = View.GONE

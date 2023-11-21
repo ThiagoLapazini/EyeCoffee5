@@ -4,10 +4,11 @@ import java.io.Serializable
 
 data class Produtos(
 
-    val nomeProduto: String,
-    val precoProduto: String,
-    val imagemProduto: Int? = null,
-    val observacaoProduto: String? = null
+    val productTitle: String,
+    val productPrice: String,
+    val productImage: String,
+    val observacaoProduto: String? = null,
+    var clickCount: Int = 0
 ) : Serializable
 
 

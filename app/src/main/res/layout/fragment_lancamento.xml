@@ -13,13 +13,13 @@
 
     <TextView
         android:id="@+id/title_lancamento"
+        style="@style/tituloPrincipal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
         android:layout_marginBottom="15dp"
-        style="@style/tituloPrincipal"
         android:gravity="top"
         android:text="Lançando Item"
-        android:layout_marginTop="25dp"
         app:layout_constraintBottom_toTopOf="@+id/lanimagem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,9 +27,9 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/lanimagem"
-        android:layout_marginBottom="15dp"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
         android:src="@drawable/ovo"
         app:layout_constraintBottom_toTopOf="@+id/quant_title"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +37,7 @@
 
     <TextView
         android:id="@+id/lannomeProduto"
+        style="@style/pequeno12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -44,19 +45,18 @@
         android:layout_marginBottom="10dp"
         android:text="@string/nomeproduto"
         android:textAlignment="textStart"
-        style="@style/pequeno12"
         app:layout_constraintBottom_toTopOf="@+id/lanprecoProduto"
         app:layout_constraintStart_toEndOf="@+id/lanimagem"
         app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
 
     <TextView
         android:id="@+id/lanprecoProduto"
+        style="@style/negrito14"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/negrito14"
-        android:text="@string/preco"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="15dp"
+        android:text="@string/preco"
         android:textAlignment="textStart"
         app:layout_constraintBottom_toTopOf="@+id/quant_title"
         app:layout_constraintStart_toEndOf="@+id/lanimagem" />
@@ -64,34 +64,35 @@
 
     <TextView
         android:id="@+id/quant_title"
+        style="@style/negrito12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/montserrat_bold"
         android:layout_marginBottom="24dp"
+        android:fontFamily="@font/montserrat_bold"
         android:text="Quantidade"
         android:textAlignment="center"
-        style="@style/negrito12"
         app:layout_constraintBottom_toTopOf="@+id/qnt_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/adicionarQuantidade"
+        style="@style/tituloPrincipal"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginStart="5dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/round"
         android:backgroundTint="@color/marrom"
         android:gravity="center"
         android:text="+"
-        style="@style/tituloPrincipal"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/total_text"
-        android:layout_marginStart="5dp"
         app:layout_constraintStart_toEndOf="@+id/qnt_counter" />
 
     <Button
         android:id="@+id/removerQuantidade"
+        style="@style/tituloPrincipal"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginEnd="5dp"
@@ -100,13 +101,13 @@
         android:backgroundTint="@color/marrom"
         android:gravity="center"
         android:text="-"
-        style="@style/tituloPrincipal"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/total_text"
-        app:layout_constraintEnd_toStartOf="@+id/qnt_counter"/>
+        app:layout_constraintEnd_toStartOf="@+id/qnt_counter" />
 
     <Button
         android:id="@+id/qnt_counter"
+        style="@style/pequeno12"
         android:layout_width="54dp"
         android:layout_height="36dp"
         android:layout_marginBottom="8dp"
@@ -114,30 +115,29 @@
         android:backgroundTint="@color/marron12"
         android:gravity="center"
         android:text="3"
-        style="@style/pequeno12"
         app:layout_constraintBottom_toTopOf="@+id/total_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/total_text"
+        style="@style/negrito14"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="Total: R$ 75,00"
-        style="@style/negrito14"
         android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/observation_text"
-        android:layout_marginBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/observation_text"
+        style="@style/negrito12"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/textoObservacao"
-        style="@style/negrito12"
         app:layout_constraintBottom_toTopOf="@+id/editText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -145,8 +145,9 @@
     <EditText
         android:id="@+id/editText"
         style="@style/pequeno12"
-        android:layout_width="match_parent"
+        android:layout_width="280dp"
         android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
         android:autofillHints="Digite aqui sua observação"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/marron12"
@@ -157,26 +158,26 @@
 
     <Button
         android:id="@+id/btCancelar"
+        style="@style/negrito12"
         android:layout_width="120dp"
         android:layout_height="40dp"
-        android:gravity="center"
         android:background="@drawable/round_backgroundbrown"
+        android:gravity="center"
         android:text="@string/textoVoltar"
-        style="@style/negrito12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btOk"
+        style="@style/negrito12"
         android:layout_width="120dp"
         android:layout_height="40dp"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/marrom"
         android:fontFamily="@font/montserrat_bold"
-        android:text="@string/adicionar"
         android:gravity="center"
-        style="@style/negrito12"
+        android:text="@string/adicionar"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

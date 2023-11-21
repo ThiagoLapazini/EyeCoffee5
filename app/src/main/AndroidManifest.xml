@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.EyeCoffee"
         tools:targetApi="31">
+
         <activity
             android:name=".SplashActivity"
             android:exported="true">
@@ -30,5 +31,9 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 </manifest>
