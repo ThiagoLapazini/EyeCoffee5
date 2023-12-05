@@ -1,12 +1,10 @@
 package com.example.eyecoffee.fragments
 
-import Lancamento
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,7 +14,6 @@ import com.example.eyecoffee.api.ApiClient
 import com.example.eyecoffee.api.ApiResponse
 import com.example.eyecoffee.databinding.FragmentCatalogoBinding
 import com.example.eyecoffee.model.ModelCarrinho
-import com.example.eyecoffee.model.Produtos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,7 +22,7 @@ class Catalogo : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: FragmentCatalogoBinding
     private lateinit var produtosAdapter: ProdutosAdapter
-    private val produtolist: MutableList<Produtos> = mutableListOf()
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +37,7 @@ class Catalogo : Fragment() {
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         // Configurando o adaptador de produtos
-        produtosAdapter = ProdutosAdapter(requireContext(), produtolist, onItemClickListener = { produto ->
+        produtosAdapter = ProdutosAdapter(requireContext(),sharedViewModel, onItemClickListener = { produto ->
             // Ação quando um item do RecyclerView é clicado
             sharedViewModel.setBottomBarVisibility(true)
 
@@ -51,7 +48,6 @@ class Catalogo : Fragment() {
             )
             sharedViewModel.addToCarrinhoList(carrinhoItem)
             // Notificando o adaptador sobre a mudança nos dados
-            produtosAdapter.notifyDataSetChanged()
         })
         recyclerView.adapter = produtosAdapter
         // Carregando dados iniciais
@@ -59,13 +55,6 @@ class Catalogo : Fragment() {
 
         return binding.root
     }
-    //private fun getFood() {
-    //    val food1 = Produtos("Cafe Coado", "R$ 4,00", R.drawable.ovo)
-    //    produtolist.add(food1)
-    //    val food2 = Produtos("Capuccino", "R$ 8,00", R.drawable.ovo)
-     //   produtolist.add(food2)
-     //
-    //}
     private fun getProdutos() {
         val apiService = ApiClient.getApiService()
         val call = apiService.getProdutos()
@@ -76,17 +65,13 @@ class Catalogo : Fragment() {
                     Log.d("API_CALL", "API call successful")
                     Log.d("API_CALL", "Dados recebidos: ${apiResponse?.data}")
 
-                    // Verifique se os dados não são nulos antes de atualizar a lista
                     apiResponse?.data?.let { produtos ->
-                        // Limpe a lista existente antes de adicionar os novos dados
-                        produtolist.clear()
-                        produtolist.addAll(produtos)
 
-                        // Notifique o adaptador sobre a mudança nos dados
-                        produtosAdapter.notifyDataSetChanged()
+                        produtosAdapter.setProductList(produtos)
+
                     }
                 } else {
-                    // Trate a resposta não bem-sucedida
+
                     Log.d("fracassou", "fracassado")
                 }
             }
@@ -97,9 +82,5 @@ class Catalogo : Fragment() {
             }
         })
     }
-    private fun onItemLongClick(produto: Produtos) {
-        val fragmentManager = (requireActivity() as AppCompatActivity).supportFragmentManager
-        val lancamentoDialog = Lancamento()
-        lancamentoDialog.show(fragmentManager, "lancamento_dialog")
-    }
+
 }

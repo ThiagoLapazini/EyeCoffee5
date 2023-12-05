@@ -22,7 +22,6 @@ class Pagamento : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         val btDesconto = view.findViewById<Button>(R.id.btDesconto)
 
         btDesconto.setOnClickListener {

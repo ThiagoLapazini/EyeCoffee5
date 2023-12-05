@@ -14,10 +14,12 @@ import com.example.eyecoffee.model.Produtos
 
 class ProdutosAdapter(
     private val context: Context,
-    private val foodList: MutableList<Produtos>,
+    private val sharedViewModel: SharedViewModel,
     private val onItemClickListener: (Produtos) -> Unit
+
 ) : RecyclerView.Adapter<ProdutosAdapter.FoodViewHolder>() {
 
+    private var foodList: List<Produtos> = listOf()
     // Método chamado para criar um novo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         // Inflando o layout do item de produto usando databinding
@@ -35,6 +37,13 @@ class ProdutosAdapter(
         // Vinculando dados ao ViewHolder
         holder.bind(produto)
     }
+
+
+    fun setProductList(foodList: List<Produtos>){
+        this.foodList = foodList
+        notifyDataSetChanged()
+    }
+
 
     // Classe interna representando o ViewHolder para um item de produto
     inner class FoodViewHolder(private val binding: ModelproductsBinding) :
@@ -61,6 +70,8 @@ class ProdutosAdapter(
                 btnQntItem.text = produto.clickCount.toString()
             }
 
+
+
             // Configurando outros elementos da interface do usuário
             Glide.with(itemView)
                 .load(produto.productImage)
@@ -75,6 +86,7 @@ class ProdutosAdapter(
 
             // Configurando o clique longo no item do RecyclerView para mostrar o diálogo de lançamento
             itemView.setOnLongClickListener {
+                sharedViewModel.setSelectedProdutoLan(produto)
                 showLancamentoDialog(produto)
                 true // Indica que o evento foi consumido
             }

@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         sharedViewModel.totalSelectedValue.observe(this) { totalValue ->
             val valFormatado = String.format("R$ %.2f", totalValue)
             binding.totalBottom.text = valFormatado
+            binding.totalBottom2.text = valFormatado
         }
 
         // Observando mudanças no número total de itens selecionados
@@ -57,6 +58,13 @@ class MainActivity : AppCompatActivity() {
             val quantFormatado = String.format("%d Itens", itemCount)
             binding.qntItens.text = quantFormatado
         }
+
+        val limpar = binding.imageLimpar
+        limpar.setOnClickListener {
+            sharedViewModel.limparCarrinho()
+        }
+
+
 
         // Configurando o clique no ícone do carrinho
         val cartIcon = binding.cartBottom
@@ -68,6 +76,7 @@ class MainActivity : AppCompatActivity() {
             // Atualizando o cabeçalho da interface do usuário
             atualizarHeader()
         }
+
 
         // Configurando o clique no ícone de avanço para pagamento
         val avancarPagamento = binding.setavancarPagamento

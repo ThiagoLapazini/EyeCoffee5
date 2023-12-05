@@ -1,0 +1,40 @@
+package com.example.eyecoffee.api
+
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+class ApiInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        // Você pode adicionar cabeçalhos ou fazer modificações na solicitação aqui
+        val originalRequest = chain.request()
+        val modifiedRequest = originalRequest.newBuilder()
+            .header("Authorization", "Bearer YOUR_ACCESS_TOKEN")
+            .build()
+
+        return chain.proceed(modifiedRequest)
+    }
+}
+
+// Criar uma instância do OkHttpClient com o interceptor
+val httpClient = OkHttpClient.Builder()
+    .addInterceptor(ApiInterceptor())
+    .build()
+
+// Criar uma instância do Retrofit
+val retrofit = Retrofit.Builder()
+    .baseUrl("https://api.example.com/")
+    .client(httpClient)
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+
+// Criar uma interface para definir os endpoints da API
+interface MyApiService {
+    // Definir os métodos da API aqui
+}
+
+// Criar uma instância do serviço
+val myApiService = retrofit.create(MyApiService::class.java)
+

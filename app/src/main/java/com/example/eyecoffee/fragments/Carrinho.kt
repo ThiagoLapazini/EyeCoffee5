@@ -17,10 +17,13 @@ class Carrinho : Fragment() {
 
     // Declarando uma instância do binding para acessar os elementos da interface do usuário
     private lateinit var binding: FragmentCarrinhoBinding
+
     // Declarando uma instância do adaptador de carrinho
     private lateinit var carrinhoAdapter: CarrinhoAdapter
+
     // Lista de itens no carrinho
     private val carrinhoList: MutableList<ModelCarrinho> = mutableListOf()
+
     // Declarando uma instância do SharedViewModel
     private lateinit var sharedViewModel: SharedViewModel
 
@@ -46,13 +49,25 @@ class Carrinho : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Observando mudanças na lista de itens no carrinho no SharedViewModel
         sharedViewModel.carrinhoList.observe(viewLifecycleOwner) { carrinhoItens ->
             // Atualizando o conjunto de dados do adaptador com a nova lista
             carrinhoAdapter.submitList(carrinhoItens)
+
+            sharedViewModel.carrinhoLimpo.observe(viewLifecycleOwner) { isLimpo ->
+                if (isLimpo) {
+                    // Atualize a view conforme necessário após a limpeza do carrinho
+                    sharedViewModel.totalSelectedValue
+                    // ...
+                    carrinhoAdapter.submitList(emptyList())
+                    // Após a atualização, sinalize que a visualização foi tratada
+                    sharedViewModel.onCarrinhoLimpoHandled()
+                }
+            }
         }
     }
 }
+
+
 
 
 
