@@ -13,6 +13,7 @@ class CarrinhoAdapter(
     private val context: Context,
     private val carrinhoList: MutableList<ModelCarrinho>,
     private val sharedViewModel: SharedViewModel
+
 ) : RecyclerView.Adapter<CarrinhoAdapter.CarrinhoViewHolder>() {
 
     // Método chamado para criar um novo ViewHolder

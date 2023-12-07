@@ -1,5 +1,6 @@
 package com.example.eyecoffee
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.example.eyecoffee.dao.ProdutoDAO
 import com.example.eyecoffee.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
 
     // Declarando uma instância do SharedViewModel
     private lateinit var sharedViewModel: SharedViewModel
@@ -33,6 +35,12 @@ class MainActivity : AppCompatActivity() {
         this.dataBase = AppDataBase.getInstance(this)
 
         this.produtoDAO = this.dataBase.ProdutoDAO()
+
+        val serviceBackgroundIntent = Intent(this, MyBackgroundService::class.java)
+        startService(serviceBackgroundIntent)
+
+        val serviceForegroundIntent = Intent(this, MyForegroundService::class.java)
+        startService(serviceForegroundIntent)
 
         // Obtendo o NavController do NavHostFragment
         val navHostFragment =
@@ -69,12 +77,14 @@ class MainActivity : AppCompatActivity() {
         // Configurando o clique no ícone do carrinho
         val cartIcon = binding.cartBottom
         cartIcon.setOnClickListener {
+            startService(Intent(this@MainActivity,MyService::class.java))
             // Navegando para o Fragment do carrinho
             navController.navigate(R.id.action_catalogo_to_carrinho)
             // Alternando a visibilidade do carrinho
             isCarrinhoVisivel = !isCarrinhoVisivel
             // Atualizando o cabeçalho da interface do usuário
             atualizarHeader()
+
         }
 
 

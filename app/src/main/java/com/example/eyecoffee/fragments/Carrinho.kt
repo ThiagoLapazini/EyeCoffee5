@@ -72,7 +72,9 @@ class Carrinho : Fragment() {
                 showPopup(modelCarrinho, view)
             }
         }
+
     }
+    // Métodos para atualizar a exibição
     private fun showPopup(modelCarrinho: ModelCarrinho, view: View) {
         // Obtendo o FragmentManager da atividade pai
         val fragmentManager = ( view.context as AppCompatActivity).supportFragmentManager

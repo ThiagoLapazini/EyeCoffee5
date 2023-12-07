@@ -17,6 +17,7 @@ import com.google.android.material.imageview.ShapeableImageView
 
 class Editando : DialogFragment() {
 
+    lateinit var itemRemovedCallback: (Int) -> Unit
     private lateinit var imagemProduto: ShapeableImageView
     private lateinit var nomeProduto: TextView
     private lateinit var precoProduto: TextView

@@ -105,10 +105,9 @@ class SharedViewModel : ViewModel() {
         _showPopupOpcoesEditar.value = modelCarrinho
     }
 
-    fun onShowPopupHandled() {
-        _showPopupOpcoesEditar.value = null
     }
 
 
 
-}
+
+
