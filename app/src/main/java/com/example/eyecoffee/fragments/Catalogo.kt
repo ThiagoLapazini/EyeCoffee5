@@ -44,7 +44,7 @@ class Catalogo : Fragment() {
             val value = produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
             sharedViewModel.addToTotalSelectedValue(value)
             val carrinhoItem = ModelCarrinho(
-                produto.productTitle, produto.productPrice, 1, produto.productImage
+                produto.productTitle, produto.productPrice, 1, produto.productImage,"teste"
             )
             sharedViewModel.addToCarrinhoList(carrinhoItem)
             // Notificando o adaptador sobre a mudança nos dados

@@ -35,7 +35,7 @@
         app:layout_constraintStart_toEndOf="@+id/imagemProdutoCarrinho"
         tools:text="@string/nomeproduto" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/opcoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

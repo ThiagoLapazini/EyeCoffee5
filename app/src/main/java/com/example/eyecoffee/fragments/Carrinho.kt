@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,7 +24,6 @@ class Carrinho : Fragment() {
 
     // Lista de itens no carrinho
     private val carrinhoList: MutableList<ModelCarrinho> = mutableListOf()
-
     // Declarando uma instância do SharedViewModel
     private lateinit var sharedViewModel: SharedViewModel
 
@@ -35,11 +35,11 @@ class Carrinho : Fragment() {
         // Inflando o layout usando o databinding
         binding = FragmentCarrinhoBinding.inflate(inflater, container, false)
         // Configurando o RecyclerView e o adaptador de carrinho
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         val recyclerView = binding.recyclerViewCarrinho
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        carrinhoAdapter = CarrinhoAdapter(requireContext(), carrinhoList)
+        carrinhoAdapter = CarrinhoAdapter(requireContext(),carrinhoList, sharedViewModel)
         // Inicializando o SharedViewModel
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         recyclerView.adapter = carrinhoAdapter
         // Ocultando a barra inferior ao exibir o fragmento do carrinho
         sharedViewModel.setBottomBarVisibility(false)
@@ -63,7 +63,22 @@ class Carrinho : Fragment() {
                     sharedViewModel.onCarrinhoLimpoHandled()
                 }
             }
+
         }
+
+        sharedViewModel.showPopupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
+            modelCarrinho?.let {
+                // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
+                showPopup(modelCarrinho, view)
+            }
+        }
+    }
+    private fun showPopup(modelCarrinho: ModelCarrinho, view: View) {
+        // Obtendo o FragmentManager da atividade pai
+        val fragmentManager = ( view.context as AppCompatActivity).supportFragmentManager
+        // Criando e mostrando o diálogo de lançamento
+        val editDialog = PopupOpcoesEditar()
+        editDialog.show(fragmentManager, "lancamento_dialog")
     }
 }
 

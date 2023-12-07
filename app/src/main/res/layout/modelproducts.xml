@@ -10,7 +10,7 @@
     android:background="@drawable/backgroundcard"
     android:elevation="10dp">
 
-    <Button
+    <ImageView
         android:id="@+id/qnt_item"
         style="@style/tituloPrincipal"
         android:layout_width="37dp"

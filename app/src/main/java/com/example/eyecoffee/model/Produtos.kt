@@ -8,7 +8,8 @@ data class Produtos(
     val productPrice: String,
     val productImage: String,
     val observacaoProduto: String? = null,
-    var clickCount: Int = 0
+    var clickCount: Int = 0,
+    var isQntItemVisible: Boolean = false
 ) : Serializable
 
 

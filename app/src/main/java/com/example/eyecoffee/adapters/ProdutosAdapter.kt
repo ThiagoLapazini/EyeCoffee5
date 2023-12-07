@@ -3,9 +3,7 @@ package com.example.eyecoffee.adapters
 import Lancamento
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -53,24 +51,10 @@ class ProdutosAdapter(
         val nomeProduto = binding.nomeProduto
         val valorProduto = binding.precoProduto
         val imgFood = binding.imagemProduto
-        private val btnQntItem: Button = binding.qntItem
+        val qnt = binding.qntItem
 
         // Método para vincular dados a um item de produto no ViewHolder
         fun bind(produto: Produtos) {
-            // Configurando a visibilidade e a contagem do botão de quantidade do item
-            if (produto.clickCount > 0) {
-                btnQntItem.visibility = View.VISIBLE
-                btnQntItem.text = produto.clickCount.toString()
-            } else {
-                btnQntItem.visibility = View.GONE
-            }
-            // Configurando o clique do botão para incrementar a contagem
-            btnQntItem.setOnClickListener {
-                produto.clickCount++
-                btnQntItem.text = produto.clickCount.toString()
-            }
-
-
 
             // Configurando outros elementos da interface do usuário
             Glide.with(itemView)

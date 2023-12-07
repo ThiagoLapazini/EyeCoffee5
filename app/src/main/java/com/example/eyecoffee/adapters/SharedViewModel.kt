@@ -51,7 +51,9 @@ class SharedViewModel : ViewModel() {
         val carrinhoItens = _carrinhoList.value ?: mutableListOf()
         carrinhoItens.add(item)
         _carrinhoList.value = carrinhoItens
+
     }
+
 
     // Método para adicionar um valor ao total selecionado e incrementar o número de itens
     fun addToTotalSelectedValue(value: Double) {
@@ -64,6 +66,7 @@ class SharedViewModel : ViewModel() {
     fun setBottomBarVisibility(visible: Boolean) {
         _bottomBarVisible.value = visible
     }
+
     fun limparCarrinho() {
         _carrinhoList.value?.clear()
         _totalSelectedValue.value = 0.0
@@ -75,21 +78,37 @@ class SharedViewModel : ViewModel() {
     fun onCarrinhoLimpoHandled() {
         _carrinhoLimpo.value = false
     }
+
     fun adicionarProdutoAoCarrinho(produto: Produtos, quantidade: Int) {
-        val precoProduto = produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
-        val totalProduto = precoProduto * quantidade
+        val precoProduto =
+            produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
+        repeat(quantidade) {
+            // Criar um item de carrinho com os detalhes do produto
+            val carrinhoItem = ModelCarrinho(
+                produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
+            )
 
-        // Criar um item de carrinho com os detalhes do produto e quantidade
-        val carrinhoItem = ModelCarrinho(
-            produto.productTitle, produto.productPrice, quantidade, produto.productImage
-        )
 
-        // Adicionar o item ao carrinho
-        addToCarrinhoList(carrinhoItem)
+            // Adicionar o item ao carrinho
+            addToCarrinhoList(carrinhoItem)
 
-        // Atualizar o total selecionado
-        addToTotalSelectedValue(totalProduto)
+            // Atualizar o total selecionado
+            addToTotalSelectedValue(precoProduto)
+        }
     }
+
+    private val _showPopupOpcoesEditar = MutableLiveData<ModelCarrinho>()
+    val showPopupOpcoesEditar: LiveData<ModelCarrinho>
+        get() = _showPopupOpcoesEditar
+
+    fun showPopupOpcoesEditar(modelCarrinho: ModelCarrinho) {
+        _showPopupOpcoesEditar.value = modelCarrinho
+    }
+
+    fun onShowPopupHandled() {
+        _showPopupOpcoesEditar.value = null
+    }
+
 
 
 }

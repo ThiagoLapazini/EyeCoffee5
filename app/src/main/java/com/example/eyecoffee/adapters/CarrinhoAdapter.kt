@@ -3,6 +3,7 @@ package com.example.eyecoffee.adapters
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.databinding.ModelcarrinhoBinding
@@ -10,7 +11,8 @@ import com.example.eyecoffee.model.ModelCarrinho
 
 class CarrinhoAdapter(
     private val context: Context,
-    private val carrinhoList: MutableList<ModelCarrinho>
+    private val carrinhoList: MutableList<ModelCarrinho>,
+    private val sharedViewModel: SharedViewModel
 ) : RecyclerView.Adapter<CarrinhoAdapter.CarrinhoViewHolder>() {
 
     // Método chamado para criar um novo ViewHolder
@@ -39,6 +41,7 @@ class CarrinhoAdapter(
                 .load(it)
                 .into(holder.imgFood)
         }
+
     }
 
     // Método para atualizar a lista de itens no adaptador
@@ -56,5 +59,14 @@ class CarrinhoAdapter(
         val valorProduto = binding.precoProdutoCarrinho
         val quantidade = binding.quantidade
         val imgFood = binding.imagemProdutoCarrinho
+        val opcoes: ImageButton = binding.opcoes
+
+        init {
+            // Definindo o OnClickListener para o botão opcoes no construtor
+            opcoes.setOnClickListener {
+                // Chamar o método do SharedViewModel para exibir o PopupOpcoesEditar
+                sharedViewModel.showPopupOpcoesEditar(carrinhoList[adapterPosition])
+            }
+        }
     }
 }

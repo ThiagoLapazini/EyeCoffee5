@@ -38,8 +38,6 @@ class Pagamento : Fragment() {
         builder.setView(dialogView)
         val alertDialog = builder.create()
 
-
-
         alertDialog.show()
     }
 
