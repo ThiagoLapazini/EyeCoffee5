@@ -18,6 +18,14 @@ class SharedViewModel : ViewModel() {
     val carrinhoLimpo: LiveData<Boolean>
         get() = _carrinhoLimpo
 
+    private val _discountValue = MutableLiveData<Double>(0.0)
+    val discountValue: LiveData<Double>
+        get() = _discountValue
+
+    // Method to set the discount value
+    fun setDiscountValue(discount: Double) {
+        _discountValue.value = discount
+    }
 
     // MutableLiveData que controla o valor total selecionado
     private val _totalSelectedValue = MutableLiveData<Double>(0.0)
@@ -105,7 +113,7 @@ class SharedViewModel : ViewModel() {
         _showPopupOpcoesEditar.value = modelCarrinho
     }
 
-    }
+}
 
 
 

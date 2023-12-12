@@ -100,8 +100,6 @@ class Lancamento : DialogFragment() {
                 totalText.text = getString(R.string.format_total, valorTotal)
             }
         }
-
-        // ... (outros códigos)
     }
 }
 

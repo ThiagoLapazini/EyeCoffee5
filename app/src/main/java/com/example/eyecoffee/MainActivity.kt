@@ -1,6 +1,10 @@
 package com.example.eyecoffee
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -36,11 +40,23 @@ class MainActivity : AppCompatActivity() {
 
         this.produtoDAO = this.dataBase.ProdutoDAO()
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "runningChannel",
+                "Running Notifications",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            val notificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        }
+        val serviceForegroundIntent2 = Intent(this, MyForegroundService::class.java)
+        startService(serviceForegroundIntent2)
+
+
+
         val serviceBackgroundIntent = Intent(this, MyBackgroundService::class.java)
         startService(serviceBackgroundIntent)
 
-        val serviceForegroundIntent = Intent(this, MyForegroundService::class.java)
-        startService(serviceForegroundIntent)
 
         // Obtendo o NavController do NavHostFragment
         val navHostFragment =
