@@ -40,11 +40,26 @@ class Pagamento : Fragment() {
     private fun initView(view: View) {
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         totalValueTextView = view.findViewById(R.id.total_value)
+
+        // Observe the totalSelectedValue LiveData to update the UI when it changes
         sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) { totalValue ->
             // Update the UI with the total value
             totalValueTextView.text = String.format("R$ %.2f", totalValue)
+
+            Log.d("valor total", "valor $totalValue ")
+
+            // Handle the discount value as needed (e.g., display it)
+            sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
+                Log.d("Pagamento", "Received discount value: $discount")
+
+                // Update the UI with the new total after applying the discount
+                val novoTotal = totalValue - (totalValue * discount)
+                totalValueTextView.text = String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
+            }
         }
-        totalValueTextView.text = String.format("R$ %.2f", totalValue)
+
+        // Set the initial text based on the initial value of totalSelectedValue
+        totalValueTextView.text = String.format("R$ %.2f", sharedViewModel.totalSelectedValue.value ?: 0.0)
 
         val btnDiscount = view.findViewById<Button>(R.id.btn_discount)
 
@@ -53,17 +68,6 @@ class Pagamento : Fragment() {
         }
 
         initButtons(view)
-
-        sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
-            // Handle the discount value as needed (e.g., display it)
-            Log.d("Pagamento", "Received discount value: $discount")
-
-            // Update the UI with the new total after applying the discount
-            val novoTotal = totalValue - (totalValue * discount)
-            totalValueTextView.text = String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
-        }
-
-
     }
 
     private fun showDescontoDialog() {
@@ -118,6 +122,10 @@ class Pagamento : Fragment() {
                     buttonAdd.visibility = View.GONE
                     buttonRemove.visibility = View.VISIBLE
                     layout.layoutParams.height = convertDpToPixel(133f, requireContext())
+                    // Use the totalSelectedValue LiveData to get the current total value
+                    val currentTotalValue = sharedViewModel.totalSelectedValue.value ?: 0.0
+                    valueTextView.text = String.format("R$ %.2f", currentTotalValue)
+
                     valueTextView.visibility = View.VISIBLE
                 }
             }
