@@ -56,7 +56,6 @@ class ProdutosAdapter(
 
         // Método para vincular dados a um item de produto no ViewHolder
         fun bind(produto: Produtos) {
-
             // Configurando outros elementos da interface do usuário
             Glide.with(itemView)
                 .load(produto.productImage)

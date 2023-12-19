@@ -2,8 +2,10 @@ package com.example.eyecoffee.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.databinding.ModelcarrinhoBinding
@@ -56,13 +58,21 @@ class CarrinhoAdapter(
         val valorProduto = binding.precoProdutoCarrinho
         val quantidade = binding.quantidade
         val imgFood = binding.imagemProdutoCarrinho
-        val opcoes: ImageButton = binding.opcoes
+        val opcoes: ImageView = binding.opcoes
+        val editar: Button = binding.editarproduto
+        val excluir: Button = binding.excluirproduto
 
         init {
             // Definindo o OnClickListener para o botão opcoes no construtor
             opcoes.setOnClickListener {
                 // Chamar o método do SharedViewModel para exibir o PopupOpcoesEditar
-                sharedViewModel.showPopupOpcoesEditar(carrinhoList[adapterPosition])
+                if ( editar.visibility == View.GONE && excluir.visibility == View.GONE) {
+                    editar.visibility = View.VISIBLE
+                    excluir.visibility = View.VISIBLE
+                } else {
+                    editar.visibility = View.GONE
+                    excluir.visibility = View.GONE
+                }
             }
         }
     }

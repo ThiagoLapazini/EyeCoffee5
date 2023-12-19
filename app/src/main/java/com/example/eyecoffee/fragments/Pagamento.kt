@@ -24,6 +24,8 @@ class Pagamento : Fragment() {
     private lateinit var totalValueTextView: TextView
     private var payType: String? = null
 
+    private var originalTotalValue: Double = 0.0
+
     private fun convertDpToPixel(dp: Float, context: Context): Int {
         return (dp * context.resources.displayMetrics.density).toInt()
     }
@@ -42,6 +44,9 @@ class Pagamento : Fragment() {
     private fun initView(view: View) {
         // Inicializa o ViewModel compartilhado
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+
+        // Salva o valor original do carrinho
+        originalTotalValue = sharedViewModel.totalSelectedValue.value ?: 0.0
         // Obtém a referência para o TextView que exibe o valor total
         totalValueTextView = view.findViewById(R.id.total_value)
         // Observa as mudanças no LiveData totalSelectedValue para atualizar a UI
@@ -49,6 +54,7 @@ class Pagamento : Fragment() {
             // Atualiza a UI com o valor total
             totalValueTextView.text = String.format("R$ %.2f", totalValue)
             Log.d("valor total", "valor $totalValue ")
+
             // Observa as mudanças no LiveData discountValue para lidar com descontos
             sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
                 Log.d("Pagamento", "Received discount value: $discount")
@@ -80,7 +86,7 @@ class Pagamento : Fragment() {
         sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
             Log.d("Pagamento", "Received discount value: $discount")
             sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) {
-
+                Log.d("total atualizado?", "total $totalValue")
             }
 
             // Define a visibilidade do botão de desconto com base no valor do desconto
@@ -138,6 +144,16 @@ class Pagamento : Fragment() {
             view.findViewById(R.id.mid_bar2)
         )
 
+        // Encontrar referência ao botão removerDesconto
+        val btnRemoverDesconto = view.findViewById<Button>(R.id.removerDesconto)
+
+        // Adicionar OnClickListener ao botão removerDesconto
+        btnRemoverDesconto.setOnClickListener {
+            // Lógica para resetar o valor e desconto
+            resetarValores()
+        }
+
+
         for (i in buttons.indices) {
             val buttonAdd = buttons[i]
             val buttonRemove = removeButtons[i]
@@ -151,16 +167,24 @@ class Pagamento : Fragment() {
                     buttonAdd.visibility = View.GONE
                     buttonRemove.visibility = View.VISIBLE
                     layout.layoutParams.height = convertDpToPixel(133f, requireContext())
-                    // Usa o LiveData totalSelectedValue para obter o valor total atual
-                    sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
-                        Log.d("Pagamento", "Received discount value: $discount")
-                        val novoTotal = totalValue - (totalValue * discount)
-                        val currentTotalValue =
-                            String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
 
-                        currentTotalValue.toDouble() // Converte a string para Double
-                        valueTextView.text = String.format("R$ %.2f", currentTotalValue)
-                        valueTextView.visibility = View.VISIBLE
+                    sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) { totalValue ->
+                        // Observa as mudanças no LiveData discountValue para lidar com descontos
+                        sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
+                            // Aplica o desconto e atualiza o valor total
+                            val novoTotal = totalValue - (totalValue * discount)
+                            // Atualiza a UI com o novo valor total após aplicar o desconto
+                            totalValueTextView.text =
+                                String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
+
+                            // Atualiza a variável totalValue
+                            this.totalValue = novoTotal
+
+                            // Atualiza o TextView de pagamento específico
+                            valueTextView.text =
+                                String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
+                            valueTextView.visibility = View.VISIBLE
+                        }
                     }
                 }
 
@@ -175,5 +199,21 @@ class Pagamento : Fragment() {
                 }
             }
         }
+
+
+    }
+
+    private fun resetarValores() {
+
+        totalValue = originalTotalValue
+
+        // Defina o desconto para 0
+        sharedViewModel.setDiscountValue(0.0)
+
+        // Atualize a UI conforme necessário
+        totalValueTextView.text = String.format("R$ %.2f", totalValue)
+        // Outras atualizações de UI que você possa precisar
     }
 }
+
+

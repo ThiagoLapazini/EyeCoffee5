@@ -98,19 +98,14 @@ class SharedViewModel : ViewModel() {
             val carrinhoItem = ModelCarrinho(
                 produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
             )
-
             // Adicionar o item ao carrinho
             addToCarrinhoList(carrinhoItem)
-
             // Atualizar o total selecionado
             addToTotalSelectedValue(precoProduto)
-
             // Atualizar a quantidadeCatalogo no catálogo
             produto.quantidadeCatalogo = (produto.quantidadeCatalogo?.toInt() ?: 0 + 1).toString()
-
         }
     }
-
     // MutableLiveData que controla a exibição do popup de opções de edição
     private val _showPopupOpcoesEditar = MutableLiveData<ModelCarrinho>()
     val showPopupOpcoesEditar: LiveData<ModelCarrinho>
@@ -120,6 +115,7 @@ class SharedViewModel : ViewModel() {
     fun showPopupOpcoesEditar(modelCarrinho: ModelCarrinho) {
         _showPopupOpcoesEditar.value = modelCarrinho
     }
+
 
     fun removerQuantidadeDoCarrinho(produto: Produtos?, diferencaQuantidade: Int) {
         if (produto != null) {
@@ -145,7 +141,6 @@ class SharedViewModel : ViewModel() {
             }
         }
     }
-
     private val _quantidadeAtual = MutableLiveData<Int>()
     val quantidadeAtual: LiveData<Int>
         get() = _quantidadeAtual
@@ -154,4 +149,6 @@ class SharedViewModel : ViewModel() {
     fun atualizarQuantidadeAtual(novaQuantidade: Int) {
         _quantidadeAtual.value = novaQuantidade
     }
+
+
 }

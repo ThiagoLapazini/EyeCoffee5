@@ -18,10 +18,8 @@ class Carrinho : Fragment() {
 
     // Declarando uma instância do binding para acessar os elementos da interface do usuário
     private lateinit var binding: FragmentCarrinhoBinding
-
     // Declarando uma instância do adaptador de carrinho
     private lateinit var carrinhoAdapter: CarrinhoAdapter
-
     // Lista de itens no carrinho
     private val carrinhoList: MutableList<ModelCarrinho> = mutableListOf()
     // Declarando uma instância do SharedViewModel
@@ -62,23 +60,23 @@ class Carrinho : Fragment() {
                     sharedViewModel.onCarrinhoLimpoHandled()
                 }
             }
-
         }
         sharedViewModel.showPopupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
             modelCarrinho?.let {
                 // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
-                showPopup(modelCarrinho, view)
+                exibirPopupOpcoesEditar(modelCarrinho, view)
             }
         }
-
     }
     // Métodos para atualizar a exibição
-    private fun showPopup(modelCarrinho: ModelCarrinho, view: View) {
-        // Obtendo o FragmentManager da atividade pai
-        val fragmentManager = ( view.context as AppCompatActivity).supportFragmentManager
-        // Criando e mostrando o diálogo de lançamento
-        val editDialog = PopupOpcoesEditar()
-        editDialog.show(fragmentManager, "lancamento_dialog")
+    private fun exibirPopupOpcoesEditar(modelCarrinho: ModelCarrinho, view: View) {
+        val fragmentManager = (requireActivity() as AppCompatActivity).supportFragmentManager
+        val editandoDialog = Editando()
+        // Passando o produto a ser editado e a callback para o diálogo de edição
+        editandoDialog.produtoAEditar = modelCarrinho
+        // Definir a visibilidade dos botões no diálogo de edição
+        // Mostrar o diálogo
+        editandoDialog.show(fragmentManager, "edicao_dialog")
     }
 }
 
