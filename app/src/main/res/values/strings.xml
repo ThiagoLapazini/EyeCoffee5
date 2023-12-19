@@ -11,4 +11,5 @@
     <string name="precoproduto">R$ 25,00</string>
     <string name="textTituloHeader">Eye Coffee</string>
     <string name="format_total">Total: R$ %s</string>
+    <string name="_2">2</string>
 </resources>

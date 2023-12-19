@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="77dp"
         android:layout_marginHorizontal="18dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="100dp"
         android:background="@drawable/round_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_discount">
+        app:layout_constraintTop_toBottomOf="@+id/total_value">
 
 
         <ImageView
@@ -46,10 +46,10 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="71dp"
             android:background="@color/marromfraco"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/dinheiroValorPagamento"
@@ -57,11 +57,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="27dp"
-            android:text="R$ 45,00"
             android:layout_marginBottom="22dp"
+            android:text="R$ 45,00"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/adicionarDinheiroPagamento"
@@ -85,21 +85,19 @@
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="13dp"
             android:src="@drawable/remove"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
     <TextView
         android:id="@+id/title_lancamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
         android:fontFamily="@font/montserrat"
         android:text="Valor restante"
-        android:layout_marginTop="70dp"
         android:textAlignment="center"
         android:textColor="@color/marrom"
         android:textSize="17sp"
@@ -110,25 +108,42 @@
     <TextView
         android:id="@+id/total_value"
         style="@style/tituloPrincipal"
-        android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$ 55,00"
         android:textAlignment="center"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
 
     <Button
+        android:id="@+id/removerDesconto"
+        style="@style/negrito14"
+        android:layout_width="280dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/round_background"
+        android:backgroundTint="@color/marromfraco"
+        android:text="REMOVER DESCONTO"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_value" />
+
+    <Button
         android:id="@+id/btn_discount"
         style="@style/negrito14"
-        android:textSize="16sp"
         android:layout_width="280dp"
         android:layout_height="40dp"
         android:layout_marginTop="31dp"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/marromfraco"
         android:text="ADICIONAR DESCONTO"
+        android:textSize="16sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/total_value" />
@@ -175,10 +190,10 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="71dp"
             android:background="@color/marromfraco"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/creditoValorPagamento"
@@ -186,11 +201,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="27dp"
-            android:text="R$ 45,00"
             android:layout_marginBottom="22dp"
+            android:text="R$ 45,00"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/adicionarCreditoPagamento"
@@ -214,9 +229,9 @@
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="13dp"
             android:src="@drawable/remove"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -240,10 +255,10 @@
         android:layout_width="match_parent"
         android:layout_height="77dp"
         android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="15dp"
         android:background="@drawable/round_background"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
-        tools:layout_editor_absoluteX="32dp"
-        android:layout_marginTop="15dp">
+        tools:layout_editor_absoluteX="32dp">
 
 
         <ImageView
@@ -289,10 +304,10 @@
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="71dp"
             android:background="@color/marromfraco"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/debitoValorPagamento"
@@ -300,11 +315,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="27dp"
-            android:text="R$ 45,00"
             android:layout_marginBottom="22dp"
+            android:text="R$ 45,00"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageButton
             android:id="@+id/removerDebitoPagamento"
@@ -314,9 +329,9 @@
             android:layout_marginEnd="18dp"
             android:layout_marginBottom="13dp"
             android:src="@drawable/remove"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

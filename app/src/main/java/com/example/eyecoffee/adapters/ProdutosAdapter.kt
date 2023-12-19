@@ -3,6 +3,7 @@ package com.example.eyecoffee.adapters
 import Lancamento
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -62,10 +63,26 @@ class ProdutosAdapter(
                 .into(imgFood)
             nomeProduto.text = produto.productTitle
             valorProduto.text = produto.productPrice
+            qnt.text = produto.quantidadeCatalogo.toString()
+            qnt.visibility = View.GONE
 
             // Configurando o clique no item do RecyclerView
             itemView.setOnClickListener {
                 onItemClickListener(produto)
+                if (qnt.visibility == View.GONE) {
+                    // Se qnt_item não é visível, torná-lo visível e definir o texto para 1
+                    qnt.visibility = View.VISIBLE
+                    sharedViewModel.atualizarQuantidadeAtual(1)
+                    qnt.text = sharedViewModel.quantidadeAtual.value.toString()
+                    produto.quantidadeCatalogo = qnt.text.toString()
+                } else {
+                    // Se qnt_item já é visível, incrementar o valor existente
+                    val valorAtual = sharedViewModel.quantidadeAtual.value ?: 0
+                    val novaQuantidade = valorAtual + 1
+                    sharedViewModel.atualizarQuantidadeAtual(novaQuantidade)
+                    qnt.text = novaQuantidade.toString()
+                    produto.quantidadeCatalogo = qnt.text.toString()
+                }
             }
 
             // Configurando o clique longo no item do RecyclerView para mostrar o diálogo de lançamento

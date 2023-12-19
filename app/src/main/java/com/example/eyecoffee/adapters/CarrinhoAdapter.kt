@@ -15,14 +15,12 @@ class CarrinhoAdapter(
     private val sharedViewModel: SharedViewModel
 
 ) : RecyclerView.Adapter<CarrinhoAdapter.CarrinhoViewHolder>() {
-
     // Método chamado para criar um novo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarrinhoViewHolder {
         // Inflando o layout do item de carrinho usando databinding
         val listItem = ModelcarrinhoBinding.inflate(LayoutInflater.from(context), parent, false)
         return CarrinhoViewHolder(listItem)
     }
-
     // Método chamado para obter o número total de itens no conjunto de dados
     override fun getItemCount() = carrinhoList.size
 
@@ -42,9 +40,7 @@ class CarrinhoAdapter(
                 .load(it)
                 .into(holder.imgFood)
         }
-
     }
-
     // Método para atualizar a lista de itens no adaptador
     fun submitList(list: List<ModelCarrinho>) {
         carrinhoList.clear()

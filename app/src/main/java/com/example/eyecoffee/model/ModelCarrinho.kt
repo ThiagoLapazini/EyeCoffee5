@@ -3,7 +3,7 @@ package com.example.eyecoffee.model
 data class ModelCarrinho(
     val nomeProdutoCarrinho: String,
     val precoProdutoCarrinho: String,
-    val quantidadeCarrinho: Int,
+    var quantidadeCarrinho: Int,
     val imagemProdutoCarrinho: String,
     val observacao: String,
 )

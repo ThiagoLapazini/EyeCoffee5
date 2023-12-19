@@ -45,7 +45,6 @@ class Carrinho : Fragment() {
         sharedViewModel.setBottomBarVisibility(false)
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -65,7 +64,6 @@ class Carrinho : Fragment() {
             }
 
         }
-
         sharedViewModel.showPopupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
             modelCarrinho?.let {
                 // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho

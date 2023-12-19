@@ -1,6 +1,7 @@
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,7 +37,7 @@ class Lancamento : DialogFragment() {
         imagemProduto = view.findViewById(R.id.lanimagem)
         nomeProduto = view.findViewById(R.id.lannomeProduto)
         precoProduto = view.findViewById(R.id.lanprecoProduto)
-        totalText =view.findViewById(R.id.total_text)
+        totalText = view.findViewById(R.id.total_text)
         qntCounter = view.findViewById(R.id.qnt_counter)
         adicionarQuantidadeBtn = view.findViewById(R.id.adicionarQuantidade)
         removerQuantidadeBtn = view.findViewById(R.id.removerQuantidade)
@@ -52,19 +53,33 @@ class Lancamento : DialogFragment() {
                 .into(imagemProduto)
             nomeProduto.text = produto.productTitle
             precoProduto.text = produto.productPrice
-            totalText.text =produto.productPrice
+            totalText.text = produto.productPrice
+            if (produto.quantidadeCatalogo == null) {
+                produto.quantidadeCatalogo = "1"
+                Log.d("testando quantidade", "quantidade")
+            }
+            qntCounter.text = produto.quantidadeCatalogo
 
             view.findViewById<Button>(R.id.btOk).setOnClickListener {
-                // Obter a quantidade selecionada
-                val quantidadeSelecionada = view.findViewById<TextView>(R.id.qnt_counter).text.toString().toInt()
-
-                // Adicionar o produto ao carrinho com a quantidade selecionada
-                sharedViewModel.adicionarProdutoAoCarrinho(produto, quantidadeSelecionada)
-
+                // Obter a quantidade inicial e a quantidade selecionada
+                val quantidadeInicial = produto.quantidadeCatalogo!!.toInt()
+                val quantidadeSelecionada =
+                    view.findViewById<TextView>(R.id.qnt_counter).text.toString().toInt()
+                Log.d("selecionado $quantidadeSelecionada", "Inicial $quantidadeInicial")
+                // Verificar se a quantidade selecionada é diferente da quantidade inicial
+                if (quantidadeSelecionada > quantidadeInicial) {
+                    // Adicionar apenas a diferença ao carrinho
+                    val diferencaQuantidade = quantidadeSelecionada - quantidadeInicial
+                    Log.d("$quantidadeSelecionada", "$quantidadeInicial")
+                    sharedViewModel.adicionarProdutoAoCarrinho(produto, diferencaQuantidade)
+                } else if (quantidadeSelecionada < quantidadeInicial) {
+                    // Remover a quantidade correspondente do carrinho
+                    val diferencaQuantidade = quantidadeInicial - quantidadeSelecionada
+                    sharedViewModel.removerQuantidadeDoCarrinho(produto, diferencaQuantidade)
+                }
                 // Fechar o diálogo
                 dismiss()
             }
-
         }
         return view
     }
@@ -73,7 +88,7 @@ class Lancamento : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Adicionar lógica para Adicionar Quantidade
+// Adicionar lógica para Adicionar Quantidade
         adicionarQuantidadeBtn.setOnClickListener {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = quantidadeAtual + 1
@@ -87,7 +102,7 @@ class Lancamento : DialogFragment() {
             }
         }
 
-        // Adicionar lógica para Remover Quantidade
+// Adicionar lógica para Remover Quantidade
         removerQuantidadeBtn.setOnClickListener {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = maxOf(quantidadeAtual - 1, 0)

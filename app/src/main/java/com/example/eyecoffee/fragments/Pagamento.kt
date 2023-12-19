@@ -1,6 +1,6 @@
 package com.example.eyecoffee.fragments
 
-import Desconto
+import Desconto  // Importa a classe Desconto do pacote correspondente
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -32,53 +32,82 @@ class Pagamento : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Infla o layout do fragmento de pagamento
         val view = inflater.inflate(R.layout.fragment_pagamento, container, false)
+        // Inicializa a view e configura os elementos visuais
         initView(view)
         return view
     }
 
     private fun initView(view: View) {
+        // Inicializa o ViewModel compartilhado
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        // Obtém a referência para o TextView que exibe o valor total
         totalValueTextView = view.findViewById(R.id.total_value)
-
-        // Observe the totalSelectedValue LiveData to update the UI when it changes
+        // Observa as mudanças no LiveData totalSelectedValue para atualizar a UI
         sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) { totalValue ->
-            // Update the UI with the total value
+            // Atualiza a UI com o valor total
             totalValueTextView.text = String.format("R$ %.2f", totalValue)
-
             Log.d("valor total", "valor $totalValue ")
-
-            // Handle the discount value as needed (e.g., display it)
+            // Observa as mudanças no LiveData discountValue para lidar com descontos
             sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
                 Log.d("Pagamento", "Received discount value: $discount")
-
-                // Update the UI with the new total after applying the discount
+                // Atualiza a UI com o novo valor total após aplicar o desconto
                 val novoTotal = totalValue - (totalValue * discount)
                 totalValueTextView.text = String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
             }
+
         }
-
-        // Set the initial text based on the initial value of totalSelectedValue
-        totalValueTextView.text = String.format("R$ %.2f", sharedViewModel.totalSelectedValue.value ?: 0.0)
-
+        // Define o texto inicial com base no valor inicial de totalSelectedValue
+        totalValueTextView.text =
+            String.format("R$ %.2f", sharedViewModel.totalSelectedValue.value ?: 0.0)
+        // Configura o botão de desconto
         val btnDiscount = view.findViewById<Button>(R.id.btn_discount)
-
         btnDiscount.setOnClickListener {
+            // Mostra o diálogo de desconto
             showDescontoDialog()
         }
-
+        // Configura os botões de forma de pagamento
         initButtons(view)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // ... (o resto do seu código)
+
+        // Observa as mudanças no LiveData discountValue para lidar com descontos
+        sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
+            Log.d("Pagamento", "Received discount value: $discount")
+            sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) {
+
+            }
+
+            // Define a visibilidade do botão de desconto com base no valor do desconto
+            val btnDesconto = view.findViewById<Button>(R.id.btn_discount)
+            val btnRemover = view.findViewById<Button>(R.id.removerDesconto)
+
+            if (discount > 0) {
+                btnDesconto.visibility = View.GONE
+                btnRemover.visibility = View.VISIBLE
+            } else {
+                btnDesconto.visibility = View.VISIBLE
+                btnRemover.visibility = View.GONE
+            }
+
+        }
+    }
+
     private fun showDescontoDialog() {
-        // Obtendo o FragmentManager da atividade pai
+        // Obtém o FragmentManager da atividade pai
         val fragmentManager = (context as AppCompatActivity).supportFragmentManager
-        // Criando e mostrando o diálogo de lançamento
+        // Cria e mostra o diálogo de desconto
         val descontoDialog = Desconto()
         descontoDialog.show(fragmentManager, "desconto_dialog")
     }
 
     private fun initButtons(view: View) {
+        // Lista de botões e elementos relacionados
         val buttons = listOf(
             view.findViewById<ImageButton>(R.id.adicionarDinheiroPagamento),
             view.findViewById(R.id.adicionarCreditoPagamento),
@@ -116,32 +145,35 @@ class Pagamento : Fragment() {
             val valueTextView = valueTextViews[i]
             val midBar = midBars[i]
 
-
             buttonAdd.setOnClickListener {
                 if (payType == null) {
+                    // Esconde o botão de adição, mostra o de remoção e ajusta o layout
                     buttonAdd.visibility = View.GONE
                     buttonRemove.visibility = View.VISIBLE
                     layout.layoutParams.height = convertDpToPixel(133f, requireContext())
-                    // Use the totalSelectedValue LiveData to get the current total value
-                    val currentTotalValue = sharedViewModel.totalSelectedValue.value ?: 0.0
-                    valueTextView.text = String.format("R$ %.2f", currentTotalValue)
+                    // Usa o LiveData totalSelectedValue para obter o valor total atual
+                    sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
+                        Log.d("Pagamento", "Received discount value: $discount")
+                        val novoTotal = totalValue - (totalValue * discount)
+                        val currentTotalValue =
+                            String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
 
-                    valueTextView.visibility = View.VISIBLE
+                        currentTotalValue.toDouble() // Converte a string para Double
+                        valueTextView.text = String.format("R$ %.2f", currentTotalValue)
+                        valueTextView.visibility = View.VISIBLE
+                    }
+                }
+
+                buttonRemove.setOnClickListener {
+                    // Mostra o botão de adição, esconde o de remoção, ajusta o layout e oculta o TextView
+                    buttonAdd.visibility = View.VISIBLE
+                    buttonRemove.visibility = View.GONE
+                    layout.layoutParams.height = convertDpToPixel(77f, requireContext())
+                    valueTextView.visibility = View.GONE
+                    midBar.visibility = View.GONE
+                    payType = null
                 }
             }
-
-            buttonRemove.setOnClickListener {
-                buttonAdd.visibility = View.VISIBLE
-                buttonRemove.visibility = View.GONE
-                layout.layoutParams.height = convertDpToPixel(77f, requireContext())
-                valueTextView.visibility = View.GONE
-                midBar.visibility = View.GONE
-                payType = null
-            }
-
-
         }
-
-
     }
 }

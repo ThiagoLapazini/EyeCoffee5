@@ -25,8 +25,6 @@ class Editando : DialogFragment() {
     private lateinit var adicionar: Button
     private lateinit var voltar: Button
     private lateinit var editTextObservacao: EditText
-
-    // Propriedade para armazenar o produto a ser editado
     var produtoAEditar: ModelCarrinho? = null
 
     override fun onCreateView(
@@ -36,13 +34,7 @@ class Editando : DialogFragment() {
     ): View? {
         // Inflar o layout do fragmento de edição
         val view = inflater.inflate(R.layout.fragment_editando, container, false)
-
-        // Inicializar os elementos do layout
-        // Inicializar o SharedViewModel
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
-
-        // ...
-
         return view
     }
 
@@ -69,7 +61,5 @@ class Editando : DialogFragment() {
                     .into(imagemProduto)
             }
         }
-
-        // ...
     }
 }

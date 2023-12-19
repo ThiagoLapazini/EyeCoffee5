@@ -19,10 +19,10 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class Catalogo : Fragment() {
+
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var binding: FragmentCatalogoBinding
     private lateinit var produtosAdapter: ProdutosAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,22 +37,23 @@ class Catalogo : Fragment() {
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
         // Configurando o adaptador de produtos
-        produtosAdapter = ProdutosAdapter(requireContext(),sharedViewModel, onItemClickListener = { produto ->
-            // Ação quando um item do RecyclerView é clicado
-            sharedViewModel.setBottomBarVisibility(true)
+        produtosAdapter =
+            ProdutosAdapter(requireContext(), sharedViewModel, onItemClickListener = { produto ->
+                // Ação quando um item do RecyclerView é clicado
+                sharedViewModel.setBottomBarVisibility(true)
 
-            val value = produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
-            sharedViewModel.addToTotalSelectedValue(value)
-            val carrinhoItem = ModelCarrinho(
-                produto.productTitle, produto.productPrice, 1, produto.productImage,"teste"
-            )
-            sharedViewModel.addToCarrinhoList(carrinhoItem)
-            // Notificando o adaptador sobre a mudança nos dados
-        })
+                val value =
+                    produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
+                sharedViewModel.addToTotalSelectedValue(value)
+                val carrinhoItem = ModelCarrinho(
+                    produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
+                )
+                sharedViewModel.addToCarrinhoList(carrinhoItem)
+                // Notificando o adaptador sobre a mudança nos dados
+            })
         recyclerView.adapter = produtosAdapter
         // Carregando dados iniciais
         getProdutos()
-
         return binding.root
     }
     private fun getProdutos() {
@@ -64,23 +65,17 @@ class Catalogo : Fragment() {
                     val apiResponse = response.body()
                     Log.d("API_CALL", "API call successful")
                     Log.d("API_CALL", "Dados recebidos: ${apiResponse?.data}")
-
                     apiResponse?.data?.let { produtos ->
-
                         produtosAdapter.setProductList(produtos)
-
                     }
                 } else {
-
                     Log.d("fracassou", "fracassado")
                 }
             }
-
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 Log.e("API_CALL", "Falha na chamada à API: ${t.message}")
                 t.printStackTrace()
             }
         })
     }
-
 }
