@@ -20,8 +20,10 @@ class MainActivity : AppCompatActivity() {
 
     // Declarando uma instância do SharedViewModel
     private lateinit var sharedViewModel: SharedViewModel
+
     // Declarando uma instância do binding para acessar os elementos da interface do usuário
     private lateinit var binding: ActivityMainBinding
+
     // Variáveis para controlar a visibilidade do carrinho e pagamento
     private var isCarrinhoVisivel = false
     private var isPagamentoVisivel = false
@@ -51,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         }
         val serviceForegroundIntent2 = Intent(this, MyForegroundService::class.java)
         startService(serviceForegroundIntent2)
-
 
 
         val serviceBackgroundIntent = Intent(this, MyBackgroundService::class.java)
@@ -88,12 +89,25 @@ class MainActivity : AppCompatActivity() {
             sharedViewModel.limparCarrinho()
         }
 
+        val voltarCarrinhoParaCatalogo = binding.returnButton
+        voltarCarrinhoParaCatalogo.setOnClickListener {
+            isCarrinhoVisivel = !isCarrinhoVisivel
+            // Atualizando o cabeçalho da interface do usuário
+            atualizarHeader()
+            navController.popBackStack(R.id.catalogo, false)
+        }
 
+        val voltarPagamentoParaCarrinho = binding.voltarpagamento
+        voltarPagamentoParaCarrinho.setOnClickListener {
+            isPagamentoVisivel = !isPagamentoVisivel
+            atualizarHeaderPagamento()
+            navController.popBackStack(R.id.carrinho,false)
+        }
 
         // Configurando o clique no ícone do carrinho
         val cartIcon = binding.cartBottom
         cartIcon.setOnClickListener {
-            startService(Intent(this@MainActivity,MyService::class.java))
+            startService(Intent(this@MainActivity, MyService::class.java))
             // Navegando para o Fragment do carrinho
             navController.navigate(R.id.action_catalogo_to_carrinho)
             // Alternando a visibilidade do carrinho
@@ -143,4 +157,6 @@ class MainActivity : AppCompatActivity() {
             binding.segundofooter.visibility = View.GONE
         }
     }
+
 }
+

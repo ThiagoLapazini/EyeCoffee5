@@ -3,7 +3,6 @@ package com.example.eyecoffee.adapters
 import Lancamento
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -19,16 +18,16 @@ class ProdutosAdapter(
 ) : RecyclerView.Adapter<ProdutosAdapter.FoodViewHolder>() {
 
     private var foodList: List<Produtos> = listOf()
+
     // Método chamado para criar um novo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
         // Inflando o layout do item de produto usando databinding
-        val listItem = ModelproductsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val listItem =
+            ModelproductsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return FoodViewHolder(listItem)
     }
-
     // Método chamado para obter o número total de itens no conjunto de dados
     override fun getItemCount() = foodList.size
-
     // Método chamado para vincular os dados a um ViewHolder específico
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         // Obtendo o objeto Produto da lista
@@ -36,14 +35,11 @@ class ProdutosAdapter(
         // Vinculando dados ao ViewHolder
         holder.bind(produto)
     }
-
-
-    fun setProductList(foodList: List<Produtos>){
+    fun setProductList(foodList: List<Produtos>) {
         this.foodList = foodList
+
         notifyDataSetChanged()
     }
-
-
     // Classe interna representando o ViewHolder para um item de produto
     inner class FoodViewHolder(private val binding: ModelproductsBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -62,26 +58,11 @@ class ProdutosAdapter(
                 .into(imgFood)
             nomeProduto.text = produto.productTitle
             valorProduto.text = produto.productPrice
-            qnt.text = produto.quantidadeCatalogo.toString()
-            qnt.visibility = View.GONE
+            qnt.text = produto.quantidadeNoCarrinho.toString()
 
             // Configurando o clique no item do RecyclerView
             itemView.setOnClickListener {
                 onItemClickListener(produto)
-                if (qnt.visibility == View.GONE) {
-                    // Se qnt_item não é visível, torná-lo visível e definir o texto para 1
-                    qnt.visibility = View.VISIBLE
-                    sharedViewModel.atualizarQuantidadeAtual(1)
-                    qnt.text = sharedViewModel.quantidadeAtual.value.toString()
-                    produto.quantidadeCatalogo = qnt.text.toString()
-                } else {
-                    // Se qnt_item já é visível, incrementar o valor existente
-                    val valorAtual = sharedViewModel.quantidadeAtual.value ?: 0
-                    val novaQuantidade = valorAtual + 1
-                    sharedViewModel.atualizarQuantidadeAtual(novaQuantidade)
-                    qnt.text = novaQuantidade.toString()
-                    produto.quantidadeCatalogo = qnt.text.toString()
-                }
             }
 
             // Configurando o clique longo no item do RecyclerView para mostrar o diálogo de lançamento
@@ -90,6 +71,7 @@ class ProdutosAdapter(
                 showLancamentoDialog(produto)
                 true // Indica que o evento foi consumido
             }
+
         }
 
         // Método para mostrar o diálogo de lançamento

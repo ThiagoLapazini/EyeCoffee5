@@ -7,7 +7,8 @@ data class Produtos(
     val productPrice: String,
     val productImage: String,
     val observacaoProduto: String? = null,
-    var quantidadeCatalogo: String? = null
+    var isNoCarrinho: Boolean = false,
+    var quantidadeNoCarrinho: Int = 0
 ) : Serializable
 
 

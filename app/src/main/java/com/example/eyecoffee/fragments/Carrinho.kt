@@ -36,13 +36,15 @@ class Carrinho : Fragment() {
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         val recyclerView = binding.recyclerViewCarrinho
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        carrinhoAdapter = CarrinhoAdapter(requireContext(),carrinhoList, sharedViewModel)
+        carrinhoAdapter = CarrinhoAdapter(requireContext(), carrinhoList, sharedViewModel)
         // Inicializando o SharedViewModel
         recyclerView.adapter = carrinhoAdapter
         // Ocultando a barra inferior ao exibir o fragmento do carrinho
         sharedViewModel.setBottomBarVisibility(false)
+
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,6 +63,12 @@ class Carrinho : Fragment() {
                 }
             }
         }
+        sharedViewModel.popupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
+            modelCarrinho?.let {
+                // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
+                exibirPopupOpcoesEditar(modelCarrinho, view)
+            }
+        }
         sharedViewModel.showPopupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
             modelCarrinho?.let {
                 // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
@@ -74,8 +82,6 @@ class Carrinho : Fragment() {
         val editandoDialog = Editando()
         // Passando o produto a ser editado e a callback para o diálogo de edição
         editandoDialog.produtoAEditar = modelCarrinho
-        // Definir a visibilidade dos botões no diálogo de edição
-        // Mostrar o diálogo
         editandoDialog.show(fragmentManager, "edicao_dialog")
     }
 }

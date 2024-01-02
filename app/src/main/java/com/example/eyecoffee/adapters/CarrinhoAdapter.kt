@@ -2,19 +2,19 @@ package com.example.eyecoffee.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.eyecoffee.R
 import com.example.eyecoffee.databinding.ModelcarrinhoBinding
 import com.example.eyecoffee.model.ModelCarrinho
 
 class CarrinhoAdapter(
     private val context: Context,
     private val carrinhoList: MutableList<ModelCarrinho>,
-    private val sharedViewModel: SharedViewModel
+    private val sharedViewModel: SharedViewModel,
 
 ) : RecyclerView.Adapter<CarrinhoAdapter.CarrinhoViewHolder>() {
     // Método chamado para criar um novo ViewHolder
@@ -41,6 +41,31 @@ class CarrinhoAdapter(
             Glide.with(context)
                 .load(it)
                 .into(holder.imgFood)
+
+        }
+        // Definindo o OnClickListener para o botão opcoes
+        holder.opcoes.setOnClickListener {
+            // Chamar o método do SharedViewModel para exibir o PopupOpcoesEditar
+            val popupMenu = PopupMenu(context, it)
+            popupMenu.inflate(R.menu.popupmenu_layout)
+
+            // Lidar com cliques nos itens do menu
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.opcao1 -> {
+                        sharedViewModel.exibirPopupOpcoesEditar(carrinhoItem)
+                        true
+                    }
+                    R.id.opcao2 -> {
+                        // Ação para a opção 2, se necessário
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            // Exibir o PopupMenu ancorado no botão "opcoes"
+            popupMenu.show()
         }
     }
     // Método para atualizar a lista de itens no adaptador
@@ -49,7 +74,6 @@ class CarrinhoAdapter(
         carrinhoList.addAll(list)
         notifyDataSetChanged()
     }
-
     // Classe interna representando o ViewHolder para um item de carrinho
     inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -59,21 +83,5 @@ class CarrinhoAdapter(
         val quantidade = binding.quantidade
         val imgFood = binding.imagemProdutoCarrinho
         val opcoes: ImageView = binding.opcoes
-        val editar: Button = binding.editarproduto
-        val excluir: Button = binding.excluirproduto
-
-        init {
-            // Definindo o OnClickListener para o botão opcoes no construtor
-            opcoes.setOnClickListener {
-                // Chamar o método do SharedViewModel para exibir o PopupOpcoesEditar
-                if ( editar.visibility == View.GONE && excluir.visibility == View.GONE) {
-                    editar.visibility = View.VISIBLE
-                    excluir.visibility = View.VISIBLE
-                } else {
-                    editar.visibility = View.GONE
-                    excluir.visibility = View.GONE
-                }
-            }
-        }
     }
 }

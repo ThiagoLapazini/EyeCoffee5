@@ -1,7 +1,6 @@
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.R
 import com.example.eyecoffee.adapters.SharedViewModel
+import com.example.eyecoffee.model.ModelCarrinho
 import com.google.android.material.imageview.ShapeableImageView
 
 class Lancamento : DialogFragment() {
@@ -54,66 +54,63 @@ class Lancamento : DialogFragment() {
             nomeProduto.text = produto.productTitle
             precoProduto.text = produto.productPrice
             totalText.text = produto.productPrice
-            if (produto.quantidadeCatalogo == null) {
-                produto.quantidadeCatalogo = "1"
-                Log.d("testando quantidade", "quantidade")
-            }
-            qntCounter.text = produto.quantidadeCatalogo
 
             view.findViewById<Button>(R.id.btOk).setOnClickListener {
-                // Obter a quantidade inicial e a quantidade selecionada
-                val quantidadeInicial = produto.quantidadeCatalogo!!.toInt()
-                val quantidadeSelecionada =
-                    view.findViewById<TextView>(R.id.qnt_counter).text.toString().toInt()
-                Log.d("selecionado $quantidadeSelecionada", "Inicial $quantidadeInicial")
-                // Verificar se a quantidade selecionada é diferente da quantidade inicial
-                if (quantidadeSelecionada > quantidadeInicial) {
-                    // Adicionar apenas a diferença ao carrinho
-                    val diferencaQuantidade = quantidadeSelecionada - quantidadeInicial
-                    Log.d("$quantidadeSelecionada", "$quantidadeInicial")
-                    sharedViewModel.adicionarProdutoAoCarrinho(produto, diferencaQuantidade)
-                } else if (quantidadeSelecionada < quantidadeInicial) {
-                    // Remover a quantidade correspondente do carrinho
-                    val diferencaQuantidade = quantidadeInicial - quantidadeSelecionada
-                    sharedViewModel.removerQuantidadeDoCarrinho(produto, diferencaQuantidade)
+                val quantidadeSelecionada = qntCounter.text.toString().toInt()
+                val produto = sharedViewModel.selectedProdutoLan.value
+
+                produto?.let {
+                    val carrinhoItem = ModelCarrinho(
+                        it.productTitle,
+                        it.productPrice,
+                        quantidadeSelecionada,
+                        it.productImage,
+                        "teste"
+                    )
+                    sharedViewModel.addToCarrinhoList(carrinhoItem, quantidadeSelecionada)
                 }
-                // Fechar o diálogo
+
                 dismiss()
             }
         }
         return view
     }
 
-    @SuppressLint("StringFormatMatches")
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-// Adicionar lógica para Adicionar Quantidade
+        // Adicionar lógica para Adicionar Quantidade
         adicionarQuantidadeBtn.setOnClickListener {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = quantidadeAtual + 1
             qntCounter.text = novaQuantidade.toString()
 
-            // Calcular e exibir o novo valor total
-            val produto = sharedViewModel.selectedProdutoLan.value
-            produto?.let {
-                val valorTotal = novaQuantidade * it.productPrice.toDouble()
-                totalText.text = getString(R.string.format_total, valorTotal)
-            }
+            // Atualizar o valor total
+            updateTotalAndQuantity(novaQuantidade)
         }
 
-// Adicionar lógica para Remover Quantidade
+        // Adicionar lógica para Remover Quantidade
         removerQuantidadeBtn.setOnClickListener {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = maxOf(quantidadeAtual - 1, 0)
             qntCounter.text = novaQuantidade.toString()
 
-            // Calcular e exibir o novo valor total
-            val produto = sharedViewModel.selectedProdutoLan.value
-            produto?.let {
-                val valorTotal = novaQuantidade * it.productPrice.toDouble()
-                totalText.text = getString(R.string.format_total, valorTotal)
-            }
+            // Atualizar o valor total
+            updateTotalAndQuantity(novaQuantidade)
+        }
+    }
+
+    @SuppressLint("StringFormatMatches")
+    private fun updateTotalAndQuantity(newQuantity: Int) {
+        val produto = sharedViewModel.selectedProdutoLan.value
+        produto?.let {
+            val valorTotal = newQuantity * it.productPrice.toDouble()
+            totalText.text = getString(R.string.format_total, valorTotal)
+
+            // Atualizar o SharedViewModel com a nova quantidade e a quantidade total de itens no carrinho
+            sharedViewModel.addToTotalSelectedValue(valorTotal)
+            sharedViewModel.addToItemCount(newQuantity)
         }
     }
 }

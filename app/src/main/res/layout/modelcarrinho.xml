@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_layout"
-    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="83dp"
     android:layout_margin="20dp"
+    android:background="@color/white"
     android:elevation="10dp">
 
 
@@ -14,10 +14,10 @@
         android:id="@+id/imagemProdutoCarrinho"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_marginStart="13dp"
+        android:layout_marginBottom="19dp"
         android:background="@drawable/backgroundimage"
         android:clipToOutline="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginStart="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:srcCompat="@drawable/ovo" />
@@ -44,41 +44,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ellipsis_vertical" />
 
-    <Button
-        android:id="@+id/editarproduto"
-        style="@style/normal14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="5dp"
-        android:visibility="gone"
-        android:text="EDITAR"
-        app:layout_constraintBottom_toBottomOf="@id/midbar"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <View
-        android:id="@+id/midbar"
-        android:layout_width="30dp"
-        android:layout_height="2.5dp"
-        android:background="@color/marrom"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/excluirproduto"
-        style="@style/normal14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="28dp"
-        android:visibility="gone"
-        android:text="EXCLUIR"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/midbar"
-        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/precoProdutoCarrinho"

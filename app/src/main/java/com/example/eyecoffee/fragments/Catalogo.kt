@@ -32,7 +32,7 @@ class Catalogo : Fragment() {
         // Inflando o layout usando o databinding
         binding = FragmentCatalogoBinding.inflate(inflater, container, false)
         // Inicializando o SharedViewModel
-        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         // Configurando o RecyclerView e o adaptador
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -41,16 +41,16 @@ class Catalogo : Fragment() {
             ProdutosAdapter(requireContext(), sharedViewModel, onItemClickListener = { produto ->
                 // Ação quando um item do RecyclerView é clicado
                 sharedViewModel.setBottomBarVisibility(true)
-
                 val value =
                     produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
                 sharedViewModel.addToTotalSelectedValue(value)
                 val carrinhoItem = ModelCarrinho(
                     produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
                 )
-                sharedViewModel.addToCarrinhoList(carrinhoItem)
-                // Notificando o adaptador sobre a mudança nos dados
+                sharedViewModel.addToCarrinhoList(carrinhoItem, 1)
+
             })
+
         recyclerView.adapter = produtosAdapter
         // Carregando dados iniciais
         getProdutos()
