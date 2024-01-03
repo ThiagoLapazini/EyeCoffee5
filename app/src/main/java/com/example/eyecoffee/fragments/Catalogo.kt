@@ -50,7 +50,6 @@ class Catalogo : Fragment() {
                 sharedViewModel.addToCarrinhoList(carrinhoItem, 1)
 
             })
-
         recyclerView.adapter = produtosAdapter
         // Carregando dados iniciais
         getProdutos()

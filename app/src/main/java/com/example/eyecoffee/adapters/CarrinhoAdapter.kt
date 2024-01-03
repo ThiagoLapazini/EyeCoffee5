@@ -1,10 +1,14 @@
 package com.example.eyecoffee.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.R
@@ -27,6 +31,8 @@ class CarrinhoAdapter(
     override fun getItemCount() = carrinhoList.size
 
     // Método chamado para vincular os dados a um ViewHolder específico
+    @RequiresApi(Build.VERSION_CODES.P)
+    @SuppressLint("RestrictedApi")
     override fun onBindViewHolder(holder: CarrinhoViewHolder, position: Int) {
         // Obtendo o objeto ModelCarrinho da lista
         val carrinhoItem = carrinhoList[position]
@@ -45,35 +51,44 @@ class CarrinhoAdapter(
         }
         // Definindo o OnClickListener para o botão opcoes
         holder.opcoes.setOnClickListener {
-            // Chamar o método do SharedViewModel para exibir o PopupOpcoesEditar
             val popupMenu = PopupMenu(context, it)
-            popupMenu.inflate(R.menu.popupmenu_layout)
 
-            // Lidar com cliques nos itens do menu
+            // Inflar o menu usando o estilo personalizado
+            val inflater: MenuInflater = popupMenu.menuInflater
+            inflater.inflate(R.menu.popupmenu_layout, popupMenu.menu)
+
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.opcao1 -> {
                         sharedViewModel.exibirPopupOpcoesEditar(carrinhoItem)
                         true
                     }
+
                     R.id.opcao2 -> {
                         // Ação para a opção 2, se necessário
                         true
                     }
+
                     else -> false
                 }
+            }
+
+            // Verificar a versão do Android antes de chamar setGroupDividerEnabled
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                popupMenu.menu.setGroupDividerEnabled(true)
             }
 
             // Exibir o PopupMenu ancorado no botão "opcoes"
             popupMenu.show()
         }
     }
-    // Método para atualizar a lista de itens no adaptador
-    fun submitList(list: List<ModelCarrinho>) {
-        carrinhoList.clear()
-        carrinhoList.addAll(list)
-        notifyDataSetChanged()
-    }
+        // Método para atualizar a lista de itens no adaptador
+        fun submitList(list: List<ModelCarrinho>) {
+            carrinhoList.clear()
+            carrinhoList.addAll(list)
+            notifyDataSetChanged()
+        }
+
     // Classe interna representando o ViewHolder para um item de carrinho
     inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -85,3 +100,4 @@ class CarrinhoAdapter(
         val opcoes: ImageView = binding.opcoes
     }
 }
+

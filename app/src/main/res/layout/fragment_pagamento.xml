@@ -95,7 +95,7 @@
         android:id="@+id/title_lancamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat"
         android:text="Valor restante"
         android:textAlignment="center"
@@ -107,15 +107,31 @@
 
     <TextView
         android:id="@+id/total_value"
-        style="@style/tituloPrincipal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="R$ 55,00"
-        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="@color/marrom"
         android:textStyle="bold"
+        android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_lancamento" />
+
+    <TextView
+        android:id="@+id/restantedesconto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Desconto - R$ 5,50"
+        android:textAlignment="center"
+        android:textColor="@color/marrom"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/total_value" />
+
 
     <Button
         android:id="@+id/removerDesconto"
