@@ -49,8 +49,11 @@ class Catalogo : Fragment() {
                 )
                 sharedViewModel.addToCarrinhoList(carrinhoItem, 1)
 
+
             })
         recyclerView.adapter = produtosAdapter
+
+
         // Carregando dados iniciais
         getProdutos()
         return binding.root
@@ -58,6 +61,7 @@ class Catalogo : Fragment() {
     private fun getProdutos() {
         val apiService = ApiClient.getApiService()
         val call = apiService.getProdutos()
+
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
@@ -66,11 +70,17 @@ class Catalogo : Fragment() {
                     Log.d("API_CALL", "Dados recebidos: ${apiResponse?.data}")
                     apiResponse?.data?.let { produtos ->
                         produtosAdapter.setProductList(produtos)
+
+                        // Update the quantity in the catalog when the response is successful
+                        sharedViewModel.carrinhoList.value?.let { carrinhoList ->
+                            produtosAdapter.updateQuantidadeNoCarrinho(produtos, carrinhoList)
+                        }
                     }
                 } else {
                     Log.d("fracassou", "fracassado")
                 }
             }
+
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 Log.e("API_CALL", "Falha na chamada à API: ${t.message}")
                 t.printStackTrace()

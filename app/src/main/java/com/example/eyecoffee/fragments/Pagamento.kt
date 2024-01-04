@@ -55,9 +55,22 @@ class Pagamento : Fragment() {
             totalValueTextView.text = String.format("R$ %.2f", totalValue)
             Log.d("valor total", "valor $totalValue ")
 
+            val restanteDescontoTextView = view.findViewById<TextView>(R.id.restantedesconto)
+
+
             // Observa as mudanças no LiveData discountValue para lidar com descontos
             sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
                 Log.d("Pagamento", "Received discount value: $discount")
+
+                val restanteDesconto = totalValue * discount
+                restanteDescontoTextView.text = String.format("R$ %.2f", restanteDesconto)
+
+                // Define a visibilidade do TextView com base no valor do desconto
+                if (discount > 0) {
+                    restanteDescontoTextView.visibility = View.VISIBLE
+                } else {
+                    restanteDescontoTextView.visibility = View.GONE
+                }
                 // Atualiza a UI com o novo valor total após aplicar o desconto
                 val novoTotal = totalValue - (totalValue * discount)
                 totalValueTextView.text = String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
@@ -87,6 +100,7 @@ class Pagamento : Fragment() {
             Log.d("Pagamento", "Received discount value: $discount")
             sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) {
                 Log.d("total atualizado?", "total $totalValue")
+
             }
 
             // Define a visibilidade do botão de desconto com base no valor do desconto

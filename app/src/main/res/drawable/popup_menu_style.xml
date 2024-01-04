@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:name="android:popupBackground">@android:color/transparent</item>
+    <item android:name="android:textColor">#1F883E3E</item>
+
+    <item android:name="android:itemTextAppearance">@style/MenuItemTextAppearance</item>
+</menu>

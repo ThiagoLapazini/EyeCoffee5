@@ -2,12 +2,14 @@ package com.example.eyecoffee.adapters
 
 import Lancamento
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.databinding.ModelproductsBinding
+import com.example.eyecoffee.model.ModelCarrinho
 import com.example.eyecoffee.model.Produtos
 
 class ProdutosAdapter(
@@ -18,6 +20,7 @@ class ProdutosAdapter(
 ) : RecyclerView.Adapter<ProdutosAdapter.FoodViewHolder>() {
 
     private var foodList: List<Produtos> = listOf()
+
 
     // Método chamado para criar um novo ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FoodViewHolder {
@@ -32,9 +35,18 @@ class ProdutosAdapter(
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         // Obtendo o objeto Produto da lista
         val produto = foodList[position]
+
+        val quantidadeNoCarrinho = getQuantidadeNoCarrinho(produto)
+        holder.qnt.text = quantidadeNoCarrinho.toString()
         // Vinculando dados ao ViewHolder
         holder.bind(produto)
     }
+    private fun getQuantidadeNoCarrinho(produto: Produtos): Int {
+        val carrinhoList = sharedViewModel.carrinhoList.value
+        return carrinhoList?.firstOrNull { it.nomeProdutoCarrinho == produto.productTitle }?.quantidadeCarrinho
+            ?: 0
+    }
+
     fun setProductList(foodList: List<Produtos>) {
         this.foodList = foodList
 
@@ -81,6 +93,22 @@ class ProdutosAdapter(
             // Criando e mostrando o diálogo de lançamento
             val lancamentoDialog = Lancamento()
             lancamentoDialog.show(fragmentManager, "lancamento_dialog")
+        }
+    }
+    fun updateQuantidadeNoCarrinho(produtos: List<Produtos>, carrinho: List<ModelCarrinho>) {
+        for (produto in produtos) {
+            for (carrinhoItem in carrinho) {
+                if (produto.productTitle == carrinhoItem.nomeProdutoCarrinho) {
+                    produto.quantidadeNoCarrinho = carrinhoItem.quantidadeCarrinho
+                    break
+                }
+            }
+        }
+        notifyDataSetChanged()
+
+        // Adicionar um log para verificar se está incrementando o qnt_text
+        for (produto in produtos) {
+            Log.d("QNT_TEXT", "Produto: ${produto.productTitle}, Quantidade: ${produto.quantidadeNoCarrinho}")
         }
     }
 }

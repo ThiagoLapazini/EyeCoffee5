@@ -49,6 +49,9 @@ class CarrinhoAdapter(
                 .into(holder.imgFood)
 
         }
+
+
+
         // Definindo o OnClickListener para o botão opcoes
         holder.opcoes.setOnClickListener {
             val popupMenu = PopupMenu(context, it)
@@ -64,8 +67,11 @@ class CarrinhoAdapter(
                         true
                     }
 
-                    R.id.opcao2 -> {
-                        // Ação para a opção 2, se necessário
+                    R.id.opcao_excluir -> {
+                        // Obter a posição do item a ser excluído
+                        val itemPosicao = holder.adapterPosition
+                        // Chamar o método para excluir o item
+                        excluirItem(itemPosicao)
                         true
                     }
 
@@ -88,6 +94,36 @@ class CarrinhoAdapter(
             carrinhoList.addAll(list)
             notifyDataSetChanged()
         }
+
+    fun excluirItem(posicao: Int): Double {
+        val itemRemovido = carrinhoList.removeAt(posicao)
+        notifyItemRemoved(posicao)
+
+        // Calcular e retornar o preço do item excluído
+        val precoExcluido = itemRemovido.precoProdutoCarrinho.toDouble()
+
+        // Notificar a alteração no valor total para o SharedViewModel
+        sharedViewModel.addToTotalSelectedValue(-precoExcluido)
+
+        // Atualizar a quantidade total e o valor total
+        updateQuantidadeTotalEValorTotal(carrinhoList)
+
+        return precoExcluido
+    }
+
+    private fun updateQuantidadeTotalEValorTotal(carrinhoList: List<ModelCarrinho>) {
+        var quantidadeTotal = 0
+        var valorTotal = 0.0
+
+        for (item in carrinhoList) {
+            quantidadeTotal += item.quantidadeCarrinho
+            valorTotal += item.quantidadeCarrinho * item.precoProdutoCarrinho.toDouble()
+        }
+
+        // Post the updated values using postValue
+        sharedViewModel.updateItemCountAndTotalValue(quantidadeTotal, valorTotal)
+
+    }
 
     // Classe interna representando o ViewHolder para um item de carrinho
     inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :

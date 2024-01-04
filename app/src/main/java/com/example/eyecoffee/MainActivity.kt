@@ -89,6 +89,12 @@ class MainActivity : AppCompatActivity() {
             sharedViewModel.limparCarrinho()
         }
 
+        val limpartxtcarrinho = binding.limparText
+        limpartxtcarrinho.setOnClickListener {
+            sharedViewModel.limparCarrinho()
+        }
+
+
         val voltarCarrinhoParaCatalogo = binding.returnButton
         voltarCarrinhoParaCatalogo.setOnClickListener {
             isCarrinhoVisivel = !isCarrinhoVisivel

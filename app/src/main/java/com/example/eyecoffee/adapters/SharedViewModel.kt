@@ -1,5 +1,7 @@
 package com.example.eyecoffee.adapters
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,7 +9,6 @@ import com.example.eyecoffee.model.ModelCarrinho
 import com.example.eyecoffee.model.Produtos
 
 class SharedViewModel : ViewModel() {
-
 
 
     // MutableLiveData que controla a visibilidade da barra inferior
@@ -37,7 +38,6 @@ class SharedViewModel : ViewModel() {
     fun setDiscountValue(discount: Double) {
         _discountValue.value = discount
     }
-
 
 
     // MutableLiveData que controla o valor total selecionado
@@ -71,9 +71,23 @@ class SharedViewModel : ViewModel() {
 
 
     fun addToTotalSelectedValue(value: Double) {
-        _totalSelectedValue.value = (_totalSelectedValue.value ?: 0.0) + value
-        _itemCount.value = (_itemCount.value ?: 0) + 1
+        _totalSelectedValue.postValue((_totalSelectedValue.value ?: 0.0) + value)
+        _itemCount.postValue((_itemCount.value ?: 0) + 1)
+
+        // Notify observers about the change in the total value
+        notificarValorTotalAtualizado()
     }
+
+    // MutableLiveData que indica que o valor total foi atualizado
+    private val _valorTotalAtualizado = MutableLiveData<Unit>()
+    val valorTotalAtualizado: LiveData<Unit>
+        get() = _valorTotalAtualizado
+
+    // Método para notificar que o valor total foi atualizado
+    fun notificarValorTotalAtualizado() {
+        _valorTotalAtualizado.value = Unit
+    }
+
 
     // Método para definir a visibilidade da barra inferior
     fun setBottomBarVisibility(visible: Boolean) {
@@ -93,6 +107,11 @@ class SharedViewModel : ViewModel() {
         _carrinhoLimpo.value = false
     }
 
+    fun updateItemCountAndTotalValue(quantidadeTotal: Int, valorTotal: Double) {
+        _itemCount.postValue(quantidadeTotal)
+        _totalSelectedValue.postValue(valorTotal)
+    }
+
 
     // MutableLiveData que controla a exibição do popup de opções de edição
     private val _showPopupOpcoesEditar = MutableLiveData<ModelCarrinho>()
@@ -103,6 +122,7 @@ class SharedViewModel : ViewModel() {
     fun showPopupOpcoesEditar(modelCarrinho: ModelCarrinho) {
         _showPopupOpcoesEditar.value = modelCarrinho
     }
+
     fun addToCarrinhoList(produto: ModelCarrinho, quantidade: Int) {
         val listaCarrinho = _carrinhoList.value ?: mutableListOf()
 
@@ -122,7 +142,34 @@ class SharedViewModel : ViewModel() {
 
         // Atualizar a quantidade total e o valor total
         updateQuantidadeTotalEValorTotal(listaCarrinho)
+
+        // Notificar o adaptador sobre a alteração
+        _quantidadeNoCarrinhoAtualizada.value = Unit
     }
+    fun atualizarObservacaoProduto(produto: ModelCarrinho, novaObservacao: String) {
+        // Encontrar o produto no carrinho e atualizar a observação
+        //carrinhoList.find { it.nomeProdutoCarrinho == produto.nomeProdutoCarrinho }?.observacao = novaObservacao
+    }
+
+
+    private val _quantidadeNoCarrinhoAtualizada = MutableLiveData<Unit>()
+    val quantidadeNoCarrinhoAtualizada: LiveData<Unit>
+        get() = _quantidadeNoCarrinhoAtualizada
+    fun notificarQuantidadeNoCarrinhoAtualizada() {
+        _quantidadeNoCarrinhoAtualizada.value = Unit
+    }
+    private fun updateQuantidadeNoCarrinho(produtos: List<Produtos>, carrinho: List<ModelCarrinho>) {
+        for (produto in produtos) {
+            for (carrinhoItem in carrinho) {
+                if (produto.productTitle == carrinhoItem.nomeProdutoCarrinho) {
+                    produto.quantidadeNoCarrinho = carrinhoItem.quantidadeCarrinho
+                    break
+                }
+            }
+        }
+        notificarQuantidadeNoCarrinhoAtualizada()
+    }
+
     fun addToItemCount(quantity: Int) {
         _itemCount.value = (_itemCount.value ?: 0) + quantity
     }
@@ -155,6 +202,7 @@ class SharedViewModel : ViewModel() {
         // Notificar observadores sobre a mudança
         _quantidadeCarrinhoAtualizada.value = Unit
     }
+
     // MutableLiveData que indica que a quantidade do carrinho foi atualizada
     private val _quantidadeCarrinhoAtualizada = MutableLiveData<Unit>()
     val quantidadeCarrinhoAtualizada: LiveData<Unit>
@@ -165,6 +213,20 @@ class SharedViewModel : ViewModel() {
         _quantidadeCarrinhoAtualizada.value = Unit
     }
 
+    private val yourLiveData = MutableLiveData<ModelCarrinho>()
+
+    // Handler associated with the main Looper
+    private val mainHandler = Handler(Looper.getMainLooper())
+
+    // ...
+
+    // Method to update LiveData from a background thread
+    fun updateLiveDataFromBackground(newValue: LiveData<ModelCarrinho>) {
+        // Post the value using mainHandler
+        mainHandler.post {
+            yourLiveData.value = newValue.value
+        }
+    }
 
     private fun updateQuantidadeTotalEValorTotal(carrinhoList: List<ModelCarrinho>) {
         var quantidadeTotal = 0
@@ -175,7 +237,10 @@ class SharedViewModel : ViewModel() {
             valorTotal += item.quantidadeCarrinho * item.precoProdutoCarrinho.toDouble()
         }
 
-        _itemCount.value = quantidadeTotal
-        _totalSelectedValue.value = valorTotal
+        // Post the updated values using mainHandler
+        mainHandler.post {
+            _itemCount.value = quantidadeTotal
+            _totalSelectedValue.value = valorTotal
+        }
     }
 }
