@@ -78,9 +78,9 @@ class Editando : DialogFragment() {
                 // Obter a nova observação do campo de edição
                 val novaObservacao = editTextObservacao.text.toString()
 
-                // Atualizar a observação do produto no SharedViewModel
+                // Atualizar a observação do produto no objeto produtoAEditar
                 produtoAEditar?.let {
-                    //it.observacao = novaObservacao
+                    it.observacao = novaObservacao
                     sharedViewModel.atualizarObservacaoProduto(it, novaObservacao)
                 }
 

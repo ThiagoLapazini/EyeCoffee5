@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
             binding.qntItens.text = quantFormatado
         }
 
+
         val limpar = binding.imageLimpar
         limpar.setOnClickListener {
             sharedViewModel.limparCarrinho()

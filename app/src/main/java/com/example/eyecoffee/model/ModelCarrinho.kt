@@ -6,5 +6,5 @@ data class ModelCarrinho(
     val precoProdutoCarrinho: String,
     var quantidadeCarrinho: Int,
     val imagemProdutoCarrinho: String,
-    val observacao: String
+    var observacao: String
 )

@@ -160,11 +160,21 @@ class SharedViewModel : ViewModel() {
         updateQuantidadeTotalEValorTotal(listaCarrinho)
 
     }
+    fun atualizarObservacaoProduto(modelCarrinho: ModelCarrinho, novaObservacao: String) {
+        // Atualizar a observação do produto
+        modelCarrinho.observacao = novaObservacao
 
-    fun atualizarObservacaoProduto(produto: ModelCarrinho, novaObservacao: String) {
-        // Encontrar o produto no carrinho e atualizar a observação
-        //carrinhoList.find { it.nomeProdutoCarrinho == produto.nomeProdutoCarrinho }?.observacao = novaObservacao
+        // Notificar observadores sobre a mudança na observação
+        notificarObservacaoProdutoAtualizada()
     }
+    private val _observacaoProdutoAtualizada = MutableLiveData<Unit>()
+    val observacaoProdutoAtualizada: LiveData<Unit>
+        get() = _observacaoProdutoAtualizada
+
+    fun notificarObservacaoProdutoAtualizada() {
+        _observacaoProdutoAtualizada.value = Unit
+    }
+
 
     private val _quantidadeProdutoAtualizada = MutableLiveData<Unit>()
     val quantidadeProdutoAtualizada: LiveData<Unit>

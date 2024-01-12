@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.eyecoffee.R
 import com.example.eyecoffee.adapters.SharedViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class Pagamento : Fragment() {
 
@@ -76,6 +77,7 @@ class Pagamento : Fragment() {
                 totalValueTextView.text = String.format("R$ %.2f", novoTotal.coerceAtLeast(0.0))
             }
 
+
         }
         // Define o texto inicial com base no valor inicial de totalSelectedValue
         totalValueTextView.text =
@@ -85,6 +87,36 @@ class Pagamento : Fragment() {
         btnDiscount.setOnClickListener {
             // Mostra o diálogo de desconto
             showDescontoDialog()
+        }
+        // Encontrar referência ao botão de finalização
+        val btnFinalizar = view.findViewById<Button>(R.id.btn_finalizar)
+
+        // Adicionar OnClickListener ao botão de finalização
+        btnFinalizar.setOnClickListener {
+            // Obter a lista de produtos do carrinho do SharedViewModel
+            val carrinhoList = sharedViewModel.getCarrinhoList()
+
+            // Obter o valor final e a forma de pagamento selecionada
+            val valorFinal = totalValue
+            val formaPagamento = payType ?: "Não selecionada"
+
+            // Criar um log com as informações desejadas
+            val logMsg = buildString {
+                append("Produtos do Carrinho:\n")
+                for (produto in carrinhoList) {
+                    append("Nome: ${produto.nomeProdutoCarrinho}, ")
+                    append("Valor: ${produto.precoProdutoCarrinho}, ")
+                    append("Observação: ${produto.observacao}\n")
+                }
+                append("Valor Final: $valorFinal\n")
+                append("Forma de Pagamento: $formaPagamento")
+            }
+
+            // Registrar as informações no Log
+            Log.d("Finalizar Pedido", logMsg)
+
+            // Exibir Snackbar de venda concluída
+            Snackbar.make(view, "Venda concluída com sucesso", Snackbar.LENGTH_SHORT).show()
         }
         // Configura os botões de forma de pagamento
         initButtons(view)
@@ -182,6 +214,14 @@ class Pagamento : Fragment() {
                     buttonRemove.visibility = View.VISIBLE
                     layout.layoutParams.height = convertDpToPixel(133f, requireContext())
 
+                    // Define a forma de pagamento selecionada
+                    payType = when (i) {
+                        0 -> "Dinheiro"
+                        1 -> "Credito"
+                        2 -> "Debito"
+                        else -> null
+                    }
+
                     sharedViewModel.totalSelectedValue.observe(viewLifecycleOwner) { totalValue ->
                         // Observa as mudanças no LiveData discountValue para lidar com descontos
                         sharedViewModel.discountValue.observe(viewLifecycleOwner) { discount ->
@@ -202,6 +242,7 @@ class Pagamento : Fragment() {
                     }
                 }
 
+
                 buttonRemove.setOnClickListener {
                     // Mostra o botão de adição, esconde o de remoção, ajusta o layout e oculta o TextView
                     buttonAdd.visibility = View.VISIBLE
@@ -216,17 +257,22 @@ class Pagamento : Fragment() {
 
 
     }
-
     private fun resetarValores() {
-
         totalValue = originalTotalValue
 
         // Defina o desconto para 0
         sharedViewModel.setDiscountValue(0.0)
 
+        // Resetar a forma de pagamento
+        payType = null
+
         // Atualize a UI conforme necessário
         totalValueTextView.text = String.format("R$ %.2f", totalValue)
         // Outras atualizações de UI que você possa precisar
+    }
+
+    fun resetarValoresExternamente() {
+        resetarValores()
     }
 }
 
