@@ -24,6 +24,7 @@ class Lancamento : DialogFragment() {
     private lateinit var qntCounter: TextView
     private lateinit var adicionarQuantidadeBtn: Button
     private lateinit var removerQuantidadeBtn: Button
+    private lateinit var textolan: TextView
 
     @SuppressLint("LongLogTag")
     override fun onCreateView(
@@ -40,6 +41,7 @@ class Lancamento : DialogFragment() {
         precoProduto = view.findViewById(R.id.lanprecoProduto)
         totalText = view.findViewById(R.id.total_text)
         qntCounter = view.findViewById(R.id.qnt_counter)
+        textolan = view.findViewById(R.id.editTextlanca)
         adicionarQuantidadeBtn = view.findViewById(R.id.adicionarQuantidade)
         removerQuantidadeBtn = view.findViewById(R.id.removerQuantidade)
 
@@ -55,10 +57,12 @@ class Lancamento : DialogFragment() {
             nomeProduto.text = produto.productTitle
             precoProduto.text = produto.productPrice
             totalText.text = produto.productPrice
+            textolan.text = produto.observacaoProduto
 
             view.findViewById<Button>(R.id.btOk).setOnClickListener {
                 val quantidadeSelecionada = qntCounter.text.toString().toInt()
                 val produto = sharedViewModel.selectedProdutoLan.value
+
 
                 produto?.let {
                     val carrinhoItem = ModelCarrinho(
@@ -67,7 +71,7 @@ class Lancamento : DialogFragment() {
                         it.productPrice,
                         quantidadeSelecionada,
                         it.productImage,
-                        "teste"
+                        textolan.text.toString()
                     )
                     sharedViewModel.addToCarrinhoList(carrinhoItem, quantidadeSelecionada)
                 }
@@ -76,8 +80,6 @@ class Lancamento : DialogFragment() {
         }
         return view
     }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

@@ -138,17 +138,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/textoObservacao"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/editTextlanca"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/editTextlanca"
         style="@style/pequeno12"
         android:layout_width="280dp"
         android:layout_height="60dp"
         android:layout_marginBottom="20dp"
-        android:autofillHints="Digite aqui sua observação"
         android:background="@drawable/round_background"
         android:backgroundTint="@color/marron12"
         android:padding="16dp"
