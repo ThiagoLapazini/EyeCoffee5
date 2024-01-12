@@ -36,28 +36,39 @@ class Catalogo : Fragment() {
         // Configurando o RecyclerView e o adaptador
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
+        sharedViewModel.quantidadeProdutoAtualizada.observe(this) {
+            produtosAdapter.notifyDataSetChanged()
+            // ou, se desejar uma atualização mais específica
+            // produtosAdapter.notifyItemChanged(posicaoDoItemAlterado)
+        }
+
         // Configurando o adaptador de produtos
         produtosAdapter =
             ProdutosAdapter(requireContext(), sharedViewModel, onItemClickListener = { produto ->
                 // Ação quando um item do RecyclerView é clicado
                 sharedViewModel.setBottomBarVisibility(true)
-                val value =
-                    produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
+                val value = produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
                 sharedViewModel.addToTotalSelectedValue(value)
-                val carrinhoItem = ModelCarrinho(
+                produto.incrementarQuantidade()
+                val carrinhoItem = ModelCarrinho(produto.productId,
                     produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
                 )
-                sharedViewModel.addToCarrinhoList(carrinhoItem, 1)
+                sharedViewModel.addToCarrinhoList(carrinhoItem, produto.quantidadeNoCarrinho)
 
+                // Atualizar a quantidade no ViewModel
+                sharedViewModel.setQuantidadeProduto(produto.productId, produto.quantidadeNoCarrinho)
 
+                // Notificar o adaptador sobre a mudança na quantidade
+                produtosAdapter.notifyDataSetChanged()
             })
         recyclerView.adapter = produtosAdapter
-
 
         // Carregando dados iniciais
         getProdutos()
         return binding.root
     }
+
+
     private fun getProdutos() {
         val apiService = ApiClient.getApiService()
         val call = apiService.getProdutos()
@@ -65,22 +76,21 @@ class Catalogo : Fragment() {
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
+
                     val apiResponse = response.body()
                     Log.d("API_CALL", "API call successful")
                     Log.d("API_CALL", "Dados recebidos: ${apiResponse?.data}")
                     apiResponse?.data?.let { produtos ->
                         produtosAdapter.setProductList(produtos)
-
-                        // Update the quantity in the catalog when the response is successful
-                        sharedViewModel.carrinhoList.value?.let { carrinhoList ->
-                            produtosAdapter.updateQuantidadeNoCarrinho(produtos, carrinhoList)
+                        sharedViewModel.quantidadeProdutoAtualizada.observe(viewLifecycleOwner) {
+                            // Atualizar o RecyclerView quando a quantidade do produto for alterada
+                            produtosAdapter.notifyDataSetChanged()
                         }
                     }
                 } else {
                     Log.d("fracassou", "fracassado")
                 }
             }
-
             override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
                 Log.e("API_CALL", "Falha na chamada à API: ${t.message}")
                 t.printStackTrace()

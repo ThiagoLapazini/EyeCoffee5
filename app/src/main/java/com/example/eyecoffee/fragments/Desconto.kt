@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.eyecoffee.R
@@ -16,6 +17,11 @@ class Desconto : DialogFragment() {
     private lateinit var sharedViewModel: SharedViewModel
     private var currentDiscountPercentage = 10
     private var previousDiscountPercentage = 10
+
+    override fun onStart() {
+        dialog?.window?.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.color.transparent))
+        super.onStart()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

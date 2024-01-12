@@ -6,7 +6,6 @@ import android.os.IBinder
 import android.util.Log
 
 class MyBackgroundService : Service() {
-
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Thread {
             while (true) {
@@ -16,7 +15,6 @@ class MyBackgroundService : Service() {
         }.start()
         return super.onStartCommand(intent, flags, startId)
     }
-
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }

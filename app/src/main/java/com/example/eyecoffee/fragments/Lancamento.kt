@@ -25,6 +25,7 @@ class Lancamento : DialogFragment() {
     private lateinit var adicionarQuantidadeBtn: Button
     private lateinit var removerQuantidadeBtn: Button
 
+    @SuppressLint("LongLogTag")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,6 +62,7 @@ class Lancamento : DialogFragment() {
 
                 produto?.let {
                     val carrinhoItem = ModelCarrinho(
+                        it.productId,
                         it.productTitle,
                         it.productPrice,
                         quantidadeSelecionada,
@@ -69,7 +71,6 @@ class Lancamento : DialogFragment() {
                     )
                     sharedViewModel.addToCarrinhoList(carrinhoItem, quantidadeSelecionada)
                 }
-
                 dismiss()
             }
         }
@@ -108,9 +109,11 @@ class Lancamento : DialogFragment() {
             val valorTotal = newQuantity * it.productPrice.toDouble()
             totalText.text = getString(R.string.format_total, valorTotal)
 
+
+
             // Atualizar o SharedViewModel com a nova quantidade e a quantidade total de itens no carrinho
             sharedViewModel.addToTotalSelectedValue(valorTotal)
-            sharedViewModel.addToItemCount(newQuantity)
+
         }
     }
 }
