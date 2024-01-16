@@ -18,6 +18,14 @@ data class Produtos(
     fun incrementarQuantidade() {
         quantidadeNoCarrinho++
     }
+    @Override
+    fun incrementarQuantidade(qnt: Int) {
+        quantidadeNoCarrinho+= qnt
+    }
+
+    fun decrementarQuantidadeTeste(){
+        quantidadeNoCarrinho--
+    }
 }
 
 

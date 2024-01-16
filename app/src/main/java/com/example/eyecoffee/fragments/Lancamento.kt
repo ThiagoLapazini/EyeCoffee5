@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.eyecoffee.R
+import com.example.eyecoffee.adapters.ProdutosAdapter
 import com.example.eyecoffee.adapters.SharedViewModel
 import com.example.eyecoffee.model.ModelCarrinho
 import com.google.android.material.imageview.ShapeableImageView
@@ -59,27 +62,11 @@ class Lancamento : DialogFragment() {
             totalText.text = produto.productPrice
             textolan.text = produto.observacaoProduto
 
-            view.findViewById<Button>(R.id.btOk).setOnClickListener {
-                val quantidadeSelecionada = qntCounter.text.toString().toInt()
-                val produto = sharedViewModel.selectedProdutoLan.value
 
-
-                produto?.let {
-                    val carrinhoItem = ModelCarrinho(
-                        it.productId,
-                        it.productTitle,
-                        it.productPrice,
-                        quantidadeSelecionada,
-                        it.productImage,
-                        textolan.text.toString()
-                    )
-                    sharedViewModel.addToCarrinhoList(carrinhoItem, quantidadeSelecionada)
-                }
-                dismiss()
-            }
         }
         return view
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -88,9 +75,6 @@ class Lancamento : DialogFragment() {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = quantidadeAtual + 1
             qntCounter.text = novaQuantidade.toString()
-
-            // Atualizar o valor total
-            updateTotalAndQuantity(novaQuantidade)
         }
 
         // Adicionar lógica para Remover Quantidade
@@ -98,24 +82,35 @@ class Lancamento : DialogFragment() {
             val quantidadeAtual = qntCounter.text.toString().toInt()
             val novaQuantidade = maxOf(quantidadeAtual - 1, 0)
             qntCounter.text = novaQuantidade.toString()
+        }
 
-            // Atualizar o valor total
-            updateTotalAndQuantity(novaQuantidade)
+        view.findViewById<Button>(R.id.btOk).setOnClickListener {
+            val quantidadeSelecionada = qntCounter.text.toString().toInt()
+            val produto = sharedViewModel.selectedProdutoLan.value
+
+            produto?.let {
+                val carrinhoItem = ModelCarrinho(
+                    it.productId,
+                    it.productTitle,
+                    it.productPrice,
+                    quantidadeSelecionada,
+                    it.productImage,
+                    textolan.text.toString()
+                )
+                sharedViewModel.addToCarrinhoListWithQuantity(carrinhoItem, quantidadeSelecionada)
+
+                // Atualize a quantidade no adaptador
+                (activity as? AppCompatActivity)?.runOnUiThread {
+                    val recyclerView = activity?.findViewById<RecyclerView>(R.id.recyclerViewCatalogo)
+                    recyclerView?.adapter?.let { adapter ->
+                        if (adapter is ProdutosAdapter) {
+                            adapter.updateProductQuantity(it.productId, quantidadeSelecionada)
+                        }
+                    }
+                }
+            }
+            dismiss()
         }
     }
 
-    @SuppressLint("StringFormatMatches")
-    private fun updateTotalAndQuantity(newQuantity: Int) {
-        val produto = sharedViewModel.selectedProdutoLan.value
-        produto?.let {
-            val valorTotal = newQuantity * it.productPrice.toDouble()
-            totalText.text = getString(R.string.format_total, valorTotal)
-
-
-
-            // Atualizar o SharedViewModel com a nova quantidade e a quantidade total de itens no carrinho
-            sharedViewModel.addToTotalSelectedValue(valorTotal)
-
-        }
-    }
 }

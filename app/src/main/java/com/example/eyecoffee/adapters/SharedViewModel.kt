@@ -68,9 +68,9 @@ class SharedViewModel : ViewModel() {
     val carrinhoList: LiveData<MutableList<ModelCarrinho>> get() = _carrinhoList
 
 
-    fun addToTotalSelectedValue(value: Double) {
+    fun addToTotalSelectedValue(value: Double, quantidade: Int) {
         _totalSelectedValue.postValue((_totalSelectedValue.value ?: 0.0) + value)
-        _itemCount.postValue((_itemCount.value ?: 0) + 1)
+        _itemCount.postValue((_itemCount.value ?: 0) + quantidade)
 
         // Notify observers about the change in the total value
         notificarValorTotalAtualizado()
@@ -133,21 +133,46 @@ class SharedViewModel : ViewModel() {
     fun setQuantidadeProduto(productId: String, quantidade: Int) {
         quantidadesProduto[productId]?.postValue(quantidade)
     }
+    // Método para remover um item do carrinho permanentemente
+    fun removeItemFromCarrinho(modelCarrinho: ModelCarrinho) {
+        // Remover o item da lista do carrinho
+        _carrinhoList.value?.remove(modelCarrinho)
+        val listaCarrinho = _carrinhoList.value ?: mutableListOf()
+        listaCarrinho.forEach { carrinhoItem ->
+            carrinhoItem.toProduto().apply {
+                quantidadeNoCarrinho--
+            }
+        }
+        // Notificar observadores sobre a mudança na lista do carrinho
+        notificarListaCarrinhoAtualizada()
 
+        // Atualizar a quantidade total e o valor total após a remoção do item
+        updateQuantidadeTotalEValorTotal(_carrinhoList.value ?: emptyList())
+    }
+    fun addToCarrinhoListWithQuantity(produto: ModelCarrinho, quantidade: Int) {
+        val listaCarrinho = _carrinhoList.value ?: mutableListOf()
+
+
+                listaCarrinho.add(produto)
+
+        addToTotalSelectedValue(quantidade * produto.precoProdutoCarrinho.toDouble(), quantidade)
+
+
+        // Notify observers about the change in the cart list
+        _carrinhoList.value = listaCarrinho
+        notificarListaCarrinhoAtualizada()
+
+        // Notify the adapter about the change in the product quantity
+        notificarQuantidadeProdutoAtualizada()
+
+        // Update the total quantity and total value
+        updateQuantidadeTotalEValorTotal(listaCarrinho)
+    }
     fun addToCarrinhoList(produto: ModelCarrinho, quantidade: Int) {
         val listaCarrinho = _carrinhoList.value ?: mutableListOf()
 
 
         listaCarrinho.add(produto)
-
-        // Configurar as propriedades no produto original
-        listaCarrinho.forEach { carrinhoItem ->
-            carrinhoItem.toProduto().apply {
-                isNoCarrinho = true
-                quantidadeNoCarrinho = carrinhoItem.quantidadeCarrinho
-
-            }
-        }
 
         // Notificar observadores sobre a mudança na lista do carrinho
         _carrinhoList.value = listaCarrinho
@@ -195,8 +220,6 @@ class SharedViewModel : ViewModel() {
     }
 
 
-
-
     // MutableLiveData que indica que a lista de carrinho foi atualizada
     private val _listaCarrinhoAtualizada = MutableLiveData<Unit>()
     val listaCarrinhoAtualizada: LiveData<Unit>
@@ -221,7 +244,6 @@ class SharedViewModel : ViewModel() {
         return _carrinhoList.value ?: emptyList()
     }
 
-
     private fun updateQuantidadeTotalEValorTotal(carrinhoList: List<ModelCarrinho>) {
         var quantidadeTotal = 0
         var valorTotal = 0.0
@@ -230,6 +252,5 @@ class SharedViewModel : ViewModel() {
             quantidadeTotal += item.quantidadeCarrinho
             valorTotal += item.quantidadeCarrinho * item.precoProdutoCarrinho.toDouble()
         }
-
     }
 }

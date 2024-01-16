@@ -90,36 +90,48 @@ class Pagamento : Fragment() {
         }
         // Encontrar referência ao botão de finalização
         val btnFinalizar = view.findViewById<Button>(R.id.btn_finalizar)
-
-        // Adicionar OnClickListener ao botão de finalização
-        btnFinalizar.setOnClickListener {
-            // Obter a lista de produtos do carrinho do SharedViewModel
-            val carrinhoList = sharedViewModel.getCarrinhoList()
-
-            // Obter o valor final e a forma de pagamento selecionada
-            val valorFinal = totalValue
-            val formaPagamento = payType ?: "Não selecionada"
-
-            // Criar um log com as informações desejadas
-            val logMsg = buildString {
-                append("Produtos do Carrinho:\n")
-                for (produto in carrinhoList) {
-                    append("Nome: ${produto.nomeProdutoCarrinho}, ")
-                    append("Valor: ${produto.precoProdutoCarrinho}, ")
-                    append("Observação: ${produto.observacao}\n")
-                }
-                append("Valor Final: $valorFinal\n")
-                append("Forma de Pagamento: $formaPagamento")
-            }
-
-            // Registrar as informações no Log
-            Log.d("Finalizar Pedido", logMsg)
-
-            // Exibir Snackbar de venda concluída
-            Snackbar.make(view, "Venda concluída com sucesso", Snackbar.LENGTH_SHORT).show()
-        }
         // Configura os botões de forma de pagamento
         initButtons(view)
+
+        // Adicionar OnClickListe  ner ao botão de finalização
+        btnFinalizar.setOnClickListener {
+
+            if (payType.isNullOrEmpty()) {
+                // Exibir mensagem se nenhuma forma de pagamento foi selecionada
+                Snackbar.make(
+                    view,
+                    "Selecione uma forma de pagamento para encerrar",
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            } else {
+                // Obter a lista de produtos do carrinho do SharedViewModel
+                val carrinhoList = sharedViewModel.getCarrinhoList()
+
+                // Obter o valor final e a forma de pagamento selecionada
+                val valorFinal = totalValue
+                val formaPagamento = payType ?: "Não selecionada"
+
+                // Criar um log com as informações desejadas
+                val logMsg = buildString {
+                    append("Produtos do Carrinho:\n")
+                    for (produto in carrinhoList) {
+                        // Inclui a quantidade, nome, preço e observação de cada produto
+                        append("Quantidade: ${produto.quantidadeCarrinho}, ")
+                        append("Nome: ${produto.nomeProdutoCarrinho}, ")
+                        append("Valor: ${produto.precoProdutoCarrinho}, ")
+                        append("Observação: ${produto.observacao}\n")
+                    }
+                    append("Valor Final: $valorFinal\n")
+                    append("Forma de Pagamento: $formaPagamento")
+                }
+
+                // Registrar as informações no Log
+                Log.d("Finalizar Pedido", logMsg)
+
+                // Exibir Snackbar de venda concluída
+                Snackbar.make(view, "Venda concluída com sucesso", Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -251,6 +263,8 @@ class Pagamento : Fragment() {
                     valueTextView.visibility = View.GONE
                     midBar.visibility = View.GONE
                     payType = null
+
+
                 }
             }
         }

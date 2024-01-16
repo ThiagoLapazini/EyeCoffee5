@@ -67,29 +67,32 @@ class ProdutosAdapter(
             valorProduto.text = produto.productPrice
             qnt.text = produto.quantidadeNoCarrinho.toString()
 
-            sharedViewModel.getQuantidadeProduto(produto.productId)
-                .observe(itemView.context as AppCompatActivity) { quantidade ->
-                    if (quantidade > 0) {
-                        qnt.visibility = View.VISIBLE
-                        qnt.text = quantidade.toString()
-                    } else {
-                        qnt.visibility = View.GONE
-                    }
-                }
+
+
+            if (produto.quantidadeNoCarrinho > 0){
+                qnt.visibility = View.VISIBLE
+            } else qnt.visibility = View.GONE
 
             // Configuring the click listener for the item
             itemView.setOnClickListener {
                 onItemClickListener(produto)
-                notifyDataSetChanged()
+
+
+                produto.incrementarQuantidade()
+
             }
 
             // Configuring the long click listener for the item
             itemView.setOnLongClickListener {
                 sharedViewModel.setSelectedProdutoLan(produto)
+                qnt.visibility = View.VISIBLE
                 showLancamentoDialog(produto)
                 true // Indicate that the event was consumed
             }
         }
+
+        // Adicione um método para atualizar a quantidade do produto no carrinho
+
 
 
         // Método para mostrar o diálogo de lançamento
@@ -102,32 +105,11 @@ class ProdutosAdapter(
         }
 
     }
-
-    fun updateItemQuantity(productId: String, newQuantity: Int) {
-        val position = foodList.indexOfFirst { it.productId == productId }
-        if (position != -1) {
-            foodList[position] = foodList[position].copy(quantidadeNoCarrinho = newQuantity)
-
-            // Notify the specific item only
-            notifyItemChanged(position)
-
-            // Notificar o SharedViewModel sobre a alteração na quantidade
-            sharedViewModel.notificarQuantidadeProdutoAtualizada()
+    fun updateProductQuantity(productId: String, newQuantity: Int) {
+        val index = foodList.indexOfFirst { it.productId == productId }
+        if (index != -1) {
+            foodList[index].quantidadeNoCarrinho += newQuantity
+            notifyItemChanged(index)
         }
     }
-
-    fun updateProductList(products: List<Produtos>) {
-        foodList = products.toMutableList()
-        notifyDataSetChanged()
-    }
-
-
-    fun updateQuantidadeNoCarrinho(quantidades: Map<String, Int>) {
-        foodList = foodList.map { produto ->
-            produto.copy(quantidadeNoCarrinho = quantidades[produto.productId] ?: 0)
-        }.toMutableList()
-
-        notifyDataSetChanged()
-    }
-
 }

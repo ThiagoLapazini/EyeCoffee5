@@ -36,11 +36,6 @@ class Catalogo : Fragment() {
         // Configurando o RecyclerView e o adaptador
         val recyclerView = binding.recyclerViewCatalogo
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 3)
-        sharedViewModel.quantidadeProdutoAtualizada.observe(this) {
-            produtosAdapter.notifyDataSetChanged()
-            // ou, se desejar uma atualização mais específica
-            // produtosAdapter.notifyItemChanged(posicaoDoItemAlterado)
-        }
 
         // Configurando o adaptador de produtos
         produtosAdapter =
@@ -48,10 +43,9 @@ class Catalogo : Fragment() {
                 // Ação quando um item do RecyclerView é clicado
                 sharedViewModel.setBottomBarVisibility(true)
                 val value = produto.productPrice.replace("R$", "").replace(",", ".").trim().toDouble()
-                sharedViewModel.addToTotalSelectedValue(value)
-                produto.incrementarQuantidade()
+                sharedViewModel.addToTotalSelectedValue(value, 1)
                 val carrinhoItem = ModelCarrinho(produto.productId,
-                    produto.productTitle, produto.productPrice, 1, produto.productImage, "teste"
+                    produto.productTitle, produto.productPrice, 1, produto.productImage, ""
                 )
                 sharedViewModel.addToCarrinhoList(carrinhoItem, produto.quantidadeNoCarrinho)
 
@@ -76,16 +70,13 @@ class Catalogo : Fragment() {
         call.enqueue(object : Callback<ApiResponse> {
             override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
                 if (response.isSuccessful) {
-
+                    Log.d("chamdno api para teste", "chamando api")
+                    sharedViewModel.notificarQuantidadeProdutoAtualizada()
                     val apiResponse = response.body()
                     Log.d("API_CALL", "API call successful")
                     Log.d("API_CALL", "Dados recebidos: ${apiResponse?.data}")
                     apiResponse?.data?.let { produtos ->
                         produtosAdapter.setProductList(produtos)
-                        sharedViewModel.quantidadeProdutoAtualizada.observe(viewLifecycleOwner) {
-                            // Atualizar o RecyclerView quando a quantidade do produto for alterada
-                            produtosAdapter.notifyDataSetChanged()
-                        }
                     }
                 } else {
                     Log.d("fracassou", "fracassado")

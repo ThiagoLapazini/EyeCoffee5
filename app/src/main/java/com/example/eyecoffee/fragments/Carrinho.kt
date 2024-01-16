@@ -1,6 +1,7 @@
 package com.example.eyecoffee.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eyecoffee.adapters.CarrinhoAdapter
+import com.example.eyecoffee.adapters.ProdutosAdapter
 import com.example.eyecoffee.adapters.SharedViewModel
 import com.example.eyecoffee.databinding.FragmentCarrinhoBinding
 import com.example.eyecoffee.model.ModelCarrinho
@@ -62,27 +64,26 @@ class Carrinho : Fragment() {
                     sharedViewModel.onCarrinhoLimpoHandled()
                 }
             }
-        }
-        sharedViewModel.popupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
-            modelCarrinho?.let {
-                // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
-                exibirPopupOpcoesEditar(modelCarrinho, view)
+
+            sharedViewModel.popupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
+                modelCarrinho?.let {
+                    exibirPopupOpcoesEditar(it)
+                }
             }
         }
-        sharedViewModel.showPopupOpcoesEditar.observe(viewLifecycleOwner) { modelCarrinho ->
-            modelCarrinho?.let {
-                // Exibir o PopupOpcoesEditar aqui e passar os dados do modelCarrinho
-                exibirPopupOpcoesEditar(modelCarrinho, view)
-            }
-        }
+
+
+
+
     }
     // Métodos para atualizar a exibição
-    private fun exibirPopupOpcoesEditar(modelCarrinho: ModelCarrinho, view: View) {
+    private fun exibirPopupOpcoesEditar(modelCarrinho: ModelCarrinho) {
         val fragmentManager = (requireActivity() as AppCompatActivity).supportFragmentManager
         val editandoDialog = Editando()
         // Passando o produto a ser editado e a callback para o diálogo de edição
         editandoDialog.produtoAEditar = modelCarrinho
         editandoDialog.show(fragmentManager, "edicao_dialog")
+        Log.d("testando criação da edição", "criação ed.")
     }
 }
 

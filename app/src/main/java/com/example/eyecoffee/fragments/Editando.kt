@@ -1,6 +1,5 @@
 package com.example.eyecoffee.fragments
 
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,10 +32,7 @@ class Editando : DialogFragment() {
         super.onCreate(savedInstanceState)
         setStyle(STYLE_NORMAL, R.style.DialogFragmentTheme)
     }
-    override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
-        fragmentManager?.beginTransaction()?.remove(this)?.commit()
-    }
+
 
     override fun onStart() {
         dialog?.window?.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.color.transparent))
@@ -87,9 +83,7 @@ class Editando : DialogFragment() {
                 // Fechar o DialogFragment
                 dismiss()
             }
-
             btnVoltar.setOnClickListener {
-
                 // Fechar o DialogFragment
                 dismiss()
             }

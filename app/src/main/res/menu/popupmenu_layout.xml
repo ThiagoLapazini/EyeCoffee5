@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/opcao1"
+        android:id="@+id/opcao_editar"
         android:title="EDITAR" />
     <item
         android:id="@+id/opcao_excluir"

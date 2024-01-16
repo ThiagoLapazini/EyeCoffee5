@@ -3,7 +3,6 @@ package com.example.eyecoffee.adapters
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.ViewGroup
@@ -63,13 +62,20 @@ class CarrinhoAdapter(
 
             popupMenu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.opcao1 -> {
+                    R.id.opcao_editar -> {
                         sharedViewModel.exibirPopupOpcoesEditar(carrinhoItem)
+
+
                         true
                     }
                     R.id.opcao_excluir -> {
-                        // Decrease the quantity of the item
-                        decreaseItemQuantity(carrinhoItem)
+
+                        // Obter a posição do item a ser excluído
+                        val itemPosicao = holder.adapterPosition
+                        // Chamar o método para excluir o item
+                        excluirItem(itemPosicao)
+
+
                         true
                     }
                     else -> false
@@ -93,41 +99,15 @@ class CarrinhoAdapter(
         }
 
 
-    fun excluirItem(posicao: Int): Double {
+    fun excluirItem(posicao: Int) {
         val itemRemovido = carrinhoList.removeAt(posicao)
         notifyItemRemoved(posicao)
 
-        // Calcular e retornar o preço do item excluído
-        val precoExcluido = itemRemovido.precoProdutoCarrinho.toDouble()
-
-        // Notificar a alteração no valor total para o SharedViewModel
-        sharedViewModel.addToTotalSelectedValue(-precoExcluido)
-
-        // Notificar o SharedViewModel sobre a alteração na quantidade
-        sharedViewModel.notificarQuantidadeProdutoAtualizada()
+        // Chame a função removeItemFromCarrinho no SharedViewModel
+        sharedViewModel.removeItemFromCarrinho(itemRemovido)
 
         // Atualizar a quantidade total e o valor total
         updateQuantidadeTotalEValorTotal(carrinhoList)
-
-        return precoExcluido
-    }
-    fun decreaseItemQuantity(carrinhoItem: ModelCarrinho) {
-        val currentPosition = carrinhoList.indexOf(carrinhoItem)
-
-        // Decrease the quantity
-        if (carrinhoItem.quantidadeCarrinho > 1) {
-            Log.d("testando a remoção", "${carrinhoItem.quantidadeCarrinho}")
-            carrinhoItem.quantidadeCarrinho--
-            Log.d("testando a remoção apos remover", "${carrinhoItem.quantidadeCarrinho}")
-            notifyItemChanged(currentPosition)
-
-            // Update the total quantity and total value
-            updateQuantidadeTotalEValorTotal(carrinhoList)
-        } else {
-            Log.d("testando a remoção no else", "${carrinhoItem.quantidadeCarrinho}")
-            // If quantity is 1, remove the item from the list
-            excluirItem(currentPosition)
-        }
     }
 
     private fun updateQuantidadeTotalEValorTotal(carrinhoList: List<ModelCarrinho>) {
@@ -142,7 +122,6 @@ class CarrinhoAdapter(
         // Post the updated values using postValue
         sharedViewModel.updateItemCountAndTotalValue(quantidadeTotal, valorTotal)
     }
-
     // Classe interna representando o ViewHolder para um item de carrinho
     inner class CarrinhoViewHolder(binding: ModelcarrinhoBinding) :
         RecyclerView.ViewHolder(binding.root) {
