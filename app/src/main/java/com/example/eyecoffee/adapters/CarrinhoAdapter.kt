@@ -65,7 +65,6 @@ class CarrinhoAdapter(
                     R.id.opcao_editar -> {
                         sharedViewModel.exibirPopupOpcoesEditar(carrinhoItem)
 
-
                         true
                     }
                     R.id.opcao_excluir -> {
@@ -74,8 +73,6 @@ class CarrinhoAdapter(
                         val itemPosicao = holder.adapterPosition
                         // Chamar o método para excluir o item
                         excluirItem(itemPosicao)
-
-
                         true
                     }
                     else -> false

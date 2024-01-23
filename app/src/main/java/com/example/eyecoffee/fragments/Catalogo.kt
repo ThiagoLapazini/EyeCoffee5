@@ -14,6 +14,7 @@ import com.example.eyecoffee.api.ApiClient
 import com.example.eyecoffee.api.ApiResponse
 import com.example.eyecoffee.databinding.FragmentCatalogoBinding
 import com.example.eyecoffee.model.ModelCarrinho
+import com.example.eyecoffee.model.Produtos
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -31,6 +32,14 @@ class Catalogo : Fragment() {
     ): View {
         // Inflando o layout usando o databinding
         binding = FragmentCatalogoBinding.inflate(inflater, container, false)
+
+        if (savedInstanceState != null) {
+            // Restore the state of the ProdutosAdapter
+            val productList = savedInstanceState.getSerializable("productList") as? ArrayList<Produtos>
+            if (productList != null) {
+                produtosAdapter.setProductList(productList)
+            }
+        }
         // Inicializando o SharedViewModel
         sharedViewModel = ViewModelProvider(requireActivity())[SharedViewModel::class.java]
         // Configurando o RecyclerView e o adaptador
@@ -62,6 +71,11 @@ class Catalogo : Fragment() {
         return binding.root
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        // Save the list of products with their quantities
+        outState.putSerializable("productList", ArrayList(produtosAdapter.getProductList()))
+    }
 
     private fun getProdutos() {
         val apiService = ApiClient.getApiService()

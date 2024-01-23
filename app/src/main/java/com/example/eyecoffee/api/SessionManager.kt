@@ -11,14 +11,11 @@ class SessionManager (context: Context?) {
     companion object {
         const val USER_TOKEN = "eyemobile.dev"
     }
-
     fun saveAuthToken(token: String) {
         val editor = prefs.edit()
         editor.putString(USER_TOKEN, token)
         editor.apply()
     }
-
-
     fun fetchAuthToken(): String? {
         return prefs.getString(USER_TOKEN, null)
     }

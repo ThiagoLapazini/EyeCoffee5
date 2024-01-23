@@ -33,10 +33,10 @@ class Editando : DialogFragment() {
         setStyle(STYLE_NORMAL, R.style.DialogFragmentTheme)
     }
 
-
     override fun onStart() {
         dialog?.window?.setBackgroundDrawable(ContextCompat.getDrawable(requireContext(), R.color.transparent))
         super.onStart()
+
     }
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -87,11 +87,8 @@ class Editando : DialogFragment() {
                 // Fechar o DialogFragment
                 dismiss()
             }
-
         }
         return view
     }
-
-
 }
 

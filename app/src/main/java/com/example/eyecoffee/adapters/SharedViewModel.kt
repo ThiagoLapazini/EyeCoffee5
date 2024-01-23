@@ -1,5 +1,6 @@
 package com.example.eyecoffee.adapters
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -149,6 +150,7 @@ class SharedViewModel : ViewModel() {
         // Atualizar a quantidade total e o valor total após a remoção do item
         updateQuantidadeTotalEValorTotal(_carrinhoList.value ?: emptyList())
     }
+    @SuppressLint("SuspiciousIndentation")
     fun addToCarrinhoListWithQuantity(produto: ModelCarrinho, quantidade: Int) {
         val listaCarrinho = _carrinhoList.value ?: mutableListOf()
 

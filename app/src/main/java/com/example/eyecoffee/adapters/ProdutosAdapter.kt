@@ -39,11 +39,23 @@ class ProdutosAdapter(
         // Configurar a visibilidade do qnt_item
         holder.bind(produto)
     }
+    // Add a method to retrieve the list of products
+    fun getProductList(): List<Produtos> {
+        return foodList
+    }
 
 
     fun setProductList(newFoodList: List<Produtos>) {
-        this.foodList.clear()
-        this.foodList.addAll(newFoodList)
+        for (newProduct in newFoodList) {
+            val existingProduct = foodList.find { it.productId == newProduct.productId }
+            if (existingProduct != null) {
+                // Update existing product
+                existingProduct.quantidadeNoCarrinho = newProduct.quantidadeNoCarrinho
+            } else {
+                // Add new product
+                foodList.add(newProduct)
+            }
+        }
         notifyDataSetChanged()
     }
 

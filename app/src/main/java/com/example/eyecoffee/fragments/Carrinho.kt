@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.eyecoffee.adapters.CarrinhoAdapter
-import com.example.eyecoffee.adapters.ProdutosAdapter
 import com.example.eyecoffee.adapters.SharedViewModel
 import com.example.eyecoffee.databinding.FragmentCarrinhoBinding
 import com.example.eyecoffee.model.ModelCarrinho
@@ -73,8 +72,6 @@ class Carrinho : Fragment() {
         }
 
 
-
-
     }
     // Métodos para atualizar a exibição
     private fun exibirPopupOpcoesEditar(modelCarrinho: ModelCarrinho) {
@@ -83,7 +80,7 @@ class Carrinho : Fragment() {
         // Passando o produto a ser editado e a callback para o diálogo de edição
         editandoDialog.produtoAEditar = modelCarrinho
         editandoDialog.show(fragmentManager, "edicao_dialog")
-        Log.d("testando criação da edição", "criação ed.")
+        Log.d("testando da edição", "criação ed.")
     }
 }
 

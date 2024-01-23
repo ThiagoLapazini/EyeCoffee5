@@ -253,8 +253,6 @@ class Pagamento : Fragment() {
                         }
                     }
                 }
-
-
                 buttonRemove.setOnClickListener {
                     // Mostra o botão de adição, esconde o de remoção, ajusta o layout e oculta o TextView
                     buttonAdd.visibility = View.VISIBLE
@@ -264,11 +262,9 @@ class Pagamento : Fragment() {
                     midBar.visibility = View.GONE
                     payType = null
 
-
                 }
             }
         }
-
 
     }
     private fun resetarValores() {
@@ -282,7 +278,7 @@ class Pagamento : Fragment() {
 
         // Atualize a UI conforme necessário
         totalValueTextView.text = String.format("R$ %.2f", totalValue)
-        // Outras atualizações de UI que você possa precisar
+
     }
 
     fun resetarValoresExternamente() {

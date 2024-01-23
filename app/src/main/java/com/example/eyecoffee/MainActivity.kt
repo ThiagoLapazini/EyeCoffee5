@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         // Observando mudanças no número total de itens selecionados
         sharedViewModel.itemCount.observe(this) { itemCount ->
             val quantFormatado = String.format("%d Itens", itemCount)
+            if (itemCount == 0) sharedViewModel.setBottomBarVisibility(visible = false)
             binding.qntItens.text = quantFormatado
         }
 
@@ -101,6 +102,9 @@ class MainActivity : AppCompatActivity() {
             isCarrinhoVisivel = !isCarrinhoVisivel
             // Atualizando o cabeçalho da interface do usuário
             atualizarHeader()
+            if (sharedViewModel.itemCount.value == 0) {
+                sharedViewModel.setBottomBarVisibility(visible = false)
+            }
             navController.popBackStack(R.id.catalogo, false)
         }
 
